@@ -25,17 +25,17 @@ namespace Bicycle_Empire
         {
             if (category == "customer_id")
             {
-                List<Customers> customers = this.db.Query<Customers>($"SELECT * FROM Customers WHERE {category} = {int.Parse(input)}").ToList();
+                List<Customers> customers = this.db.Query<Customers>($"SELECT * FROM Customers WHERE {category} = {int.Parse(input)} ORDER BY {category}").ToList();
                 return customers;
             }
             else if (category == "phone_number")
             {
-                List<Customers> customers = this.db.Query<Customers>($"SELECT * FROM Customers WHERE {category} LIKE '%{int.Parse(input)}%'").ToList();
+                List<Customers> customers = this.db.Query<Customers>($"SELECT * FROM Customers WHERE {category} LIKE '%{int.Parse(input)}%' ORDER BY {category}").ToList();
                 return customers;
             }
             else
             {
-                List<Customers> customers = this.db.Query<Customers>($"SELECT * FROM Customers WHERE {category} LIKE '%{input}%'").ToList();
+                List<Customers> customers = this.db.Query<Customers>($"SELECT * FROM Customers WHERE {category} LIKE '%{input}%' ORDER BY {category}").ToList();
                 return customers;
             }
         }

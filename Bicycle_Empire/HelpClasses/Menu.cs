@@ -14,7 +14,7 @@ namespace Bicycle_Empire
             {
                 Console.Clear();
                 Console.WriteLine("Welcome! \nWhat do you want to do?\n");
-                Console.WriteLine("1. See all the info from a category.\n2. Search for information by entering a specific value.\n");
+                Console.WriteLine("1. See all the info from a category.\n2. Search for information by entering a specific value.\n6. Exit\n");
 
                 try
                 {
@@ -39,6 +39,9 @@ namespace Bicycle_Empire
                     break;
                 case 2:
                     Menu.PrintGetSpecificMenu();
+                    break;
+                case 6:
+                    Environment.Exit(0);
                     break;
                 default:
                     Console.WriteLine("Wrong input");
@@ -168,13 +171,13 @@ namespace Bicycle_Empire
             {
                 try
                 {
+                    int category;
+                    string sCategory;
+                    string sInput;
                     switch (input)
                     {
                         case 1:
                             CustomersController customerCont = new CustomersController();
-                            int category;
-                            string sCategory;
-                            string sInput;
                             Console.Clear();
 
                             Console.WriteLine("What parameter do you want to filter your search by? Enter one of the numbers below.\n1 = Customer id\n2 = First name\n3 = Last name\n4 = Phone number");
@@ -216,22 +219,136 @@ namespace Bicycle_Empire
                         case 2:
                             BicyclesController bicycleCont = new BicyclesController();
                             Console.Clear();
-                            
+
+                            Console.WriteLine("What parameter do you want to filter your search by? Enter one of the numbers below.\n1 = Bicycle id\n2 = Price category\n3 = Rental status\n4 = Model");
+                            category = int.Parse(Console.ReadLine());
+                            if (category == 1)
+                            {
+                                sCategory = "bicycle_id";
+                            }
+                            else if (category == 2)
+                            {
+                                sCategory = "price_category";
+                            }
+                            else if (category == 3)
+                            {
+                                sCategory = "rental_status";
+                            }
+                            else if (category == 4)
+                            {
+                                sCategory = "model";
+                            }
+                            else
+                            {
+                                sCategory = null;
+                            }
+                            Console.Clear();
+
+                            Console.Write("Now enter the search value. The input does not need to include the exact value just parts of it is ok. \nEnter the search value: \n");
+                            sInput = Console.ReadLine();
+                            Console.Clear();
+
+                            Console.WriteLine("Result:\n");
+                            foreach (var b in bicycleCont.GetByString(sCategory, sInput))
+                            {
+                                Console.WriteLine($"ID: {b.bicycle_id} \nModel: {b.model} \nPrice category: {b.price_category} \nRental status: {b.rental_status}\n");
+                            }
+
+                            Console.ReadKey();
                             break;
                         case 3:
                             RentalOrdersController orderCont = new RentalOrdersController();
                             Console.Clear();
-                            
+
+                            Console.WriteLine("What parameter do you want to filter your search by? Enter one of the numbers below.\n1 = Order number\n2 = Customer id\n3 = Bicycle id\n4 = Order date\n5 = Return date\n6 = Hours rented\n7 = Days rented");
+                            category = int.Parse(Console.ReadLine());
+                            if (category == 1)
+                            {
+                                sCategory = "order_number";
+                            }
+                            else if (category == 2)
+                            {
+                                sCategory = "customer_id";
+                            }
+                            else if (category == 3)
+                            {
+                                sCategory = "bicycle_id";
+                            }
+                            else if (category == 4)
+                            {
+                                sCategory = "order_date";
+                            }
+                            else if (category == 5)
+                            {
+                                sCategory = "return_date";
+                            }
+                            else if (category == 6)
+                            {
+                                sCategory = "rent_time";
+                            }
+                            else if (category == 7)
+                            {
+                                sCategory = "days_rented";
+                            }
+                            else
+                            {
+                                sCategory = null;
+                            }
+                            Console.Clear();
+
+                            Console.Write("Now enter the search value. The input does not need to include the exact value just parts of it is ok. \nEnter the search value: \n");
+                            sInput = Console.ReadLine();
+                            Console.Clear();
+
+                            Console.WriteLine("Result:\n");
+                            foreach (var o in orderCont.GetByString(sCategory, sInput))
+                            {
+                                Console.WriteLine($"Order number: {o.order_number} \nCustomer id: {o.customer_id}\nBicycle id: {o.bicycle_id} \nOrder date: {o.order_date} \nReturn date: {o.return_date}\nRental hours: {o.rent_time}\nRental days: {o.days_rented}\n");
+                            }
+
+                            Console.ReadKey();
                             break;
                         case 4:
                             RentalPricesController priceCont = new RentalPricesController();
                             Console.Clear();
-                            
+
+                            Console.WriteLine("What parameter do you want to filter your search by? Enter one of the numbers below.\n1 = Price category\n2 = Hour price\n3 = Day price");
+                            category = int.Parse(Console.ReadLine());
+                            if (category == 1)
+                            {
+                                sCategory = "price_category";
+                            }
+                            else if (category == 2)
+                            {
+                                sCategory = "hour_price";
+                            }
+                            else if (category == 3)
+                            {
+                                sCategory = "day_price";
+                            }
+                            else
+                            {
+                                sCategory = null;
+                            }
+                            Console.Clear();
+
+                            Console.Write("Now enter the search value. The input does not need to include the exact value just parts of it is ok. \nEnter the search value: \n");
+                            sInput = Console.ReadLine();
+                            Console.Clear();
+
+                            Console.WriteLine("Result:\n");
+                            foreach (var p in priceCont.GetByString(sCategory, sInput))
+                            {
+                                Console.WriteLine($"Price category: { p.price_category} \nHour price: { p.hour_price}\nDay price: { p.day_price} \n");
+                            }
+
+                            Console.ReadKey();
                             break;
                         case 5:
                             InvoiceInfoController invoiceCont = new InvoiceInfoController();
                             Console.Clear();
 
+                            Console.ReadKey();
                             break;
                     }
                     break;

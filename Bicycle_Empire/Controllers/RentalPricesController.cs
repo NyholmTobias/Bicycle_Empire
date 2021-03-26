@@ -21,10 +21,11 @@ namespace Bicycle_Empire
             return rentalPrices;
         }
 
-        //public List<Customers> GetByString(string input)
-        //{
-
-        //}
+        public List<Rental_Prices> GetByString(string category, string input)
+        {
+            List<Rental_Prices> rentalPrices = this.db.Query<Rental_Prices>($"SELECT * FROM Rental_Prices WHERE {category} LIKE '%{int.Parse(input)}%' ORDER BY {category}").ToList();
+            return rentalPrices;   
+        }
 
         //public List<Customers> GetByInt(int input)
         //{

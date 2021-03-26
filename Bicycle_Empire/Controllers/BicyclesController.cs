@@ -21,10 +21,24 @@ namespace Bicycle_Empire
             return bicycles;
         }
 
-        //public List<Customers> GetByString(string input)
-        //{
-
-        //}
+        public List<Bicycles> GetByString(string category, string input)
+        {
+            if (category == "bicycle_id")
+            {
+                List<Bicycles> bicycles = this.db.Query<Bicycles>($"SELECT * FROM Bicycles WHERE {category} = {int.Parse(input)} ORDER BY {category}").ToList();
+                return bicycles;
+            }
+            else if (category == "price_category")
+            {
+                List<Bicycles> bicycles = this.db.Query<Bicycles>($"SELECT * FROM Bicycles WHERE {category} = {int.Parse(input)} ORDER BY {category}").ToList();
+                return bicycles;
+            }
+            else
+            {
+                List<Bicycles> bicycles = this.db.Query<Bicycles>($"SELECT * FROM Bicycles WHERE {category} LIKE '%{input}%' ORDER BY {category}").ToList();
+                return bicycles;
+            }
+        }
 
         //public List<Customers> GetByInt(int input)
         //{
