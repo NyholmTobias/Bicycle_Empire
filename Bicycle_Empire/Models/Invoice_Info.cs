@@ -1,4 +1,6 @@
-﻿namespace Bicycle_Empire
+﻿using System;
+
+namespace Bicycle_Empire
 {
     public class Invoice_Info
     {
@@ -11,5 +13,6 @@
         public int customer_id { get; set; }
         public string first_name { get; set; }
         public string last_name { get; set; }
+
     }
 }

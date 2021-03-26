@@ -13,8 +13,8 @@ namespace Bicycle_Empire
             while (true)
             {
                 Console.Clear();
-                Console.WriteLine("Welcome! What do you want to do?\n");
-                Console.WriteLine("1. See all the info from a category.\n");
+                Console.WriteLine("Welcome! \nWhat do you want to do?\n");
+                Console.WriteLine("1. See all the info from a category.\n2. Search for information by entering a specific value.\n");
 
                 try
                 {
@@ -37,6 +37,9 @@ namespace Bicycle_Empire
                 case 1:
                     Menu.PrintGetAllMenu();
                     break;
+                case 2:
+                    Menu.PrintGetSpecificMenu();
+                    break;
                 default:
                     Console.WriteLine("Wrong input");
                     Console.ReadKey();
@@ -50,8 +53,7 @@ namespace Bicycle_Empire
             Console.Clear();
             while (true)
             {
-                Console.WriteLine("Pick a category to get all the information from.\n");
-                Console.WriteLine("1. Customers.\n");
+                Console.WriteLine("Pick a category to get all the information from.\n1.Customers.\n2.Bicycles.\n3.Orders.\n4.Prices.\n5.Invoices.");
 
                 try
                 {
@@ -70,30 +72,179 @@ namespace Bicycle_Empire
 
         internal static void HandleGetAllMenuInput(int input)
         {
-            switch (input)
+            while (true)
             {
-                case 1:
-                    CustomersController customerCont = new CustomersController();
-                    Console.Clear();
-                    Console.WriteLine("Below is all the information from the customers table.\n");
-                    foreach (var c in customerCont.GetAll())
+                try
+                {
+                    switch (input)
                     {
-                        Console.WriteLine($"ID: {c.customer_id} \nFirst name: {c.first_name} \nLast name: {c.last_name} \nPhone number: +46{c.phone_number}\n");
+                        case 1:
+                            CustomersController customerCont = new CustomersController();
+                            Console.Clear();
+                            Console.WriteLine("Below is all the information from the customers table.\n");
+                            foreach (var c in customerCont.GetAll())
+                            {
+                                Console.WriteLine($"ID: {c.customer_id} \nFirst name: {c.first_name} \nLast name: {c.last_name} \nPhone number: +46{c.phone_number}\n");
+                            }
+                            Console.ReadLine();
+                            break;
+                        case 2:
+                            BicyclesController bicycleCont = new BicyclesController();
+                            Console.Clear();
+                            Console.WriteLine("Below is all the information from the bicycles table.\n");
+                            foreach (var b in bicycleCont.GetAll())
+                            {
+                                Console.WriteLine($"ID: {b.bicycle_id} \nModel: {b.model} \nPrice category: {b.price_category} \nRental status: {b.rental_status}\n");
+                            }
+                            Console.ReadLine();
+                            break;
+                        case 3:
+                            RentalOrdersController orderCont = new RentalOrdersController();
+                            Console.Clear();
+                            Console.WriteLine("Below is all the information from the orders table.\n");
+                            foreach (var o in orderCont.GetAll())
+                            {
+                                Console.WriteLine($"Order number: {o.order_number} \nCustomer id: {o.customer_id}\nBicycle id: {o.bicycle_id} \nOrder date: {o.order_date} \nReturn date: {o.return_date}\nRental hours: {o.rent_time}\nRental days: {o.days_rented}\n");
+                            }
+                            Console.ReadLine();
+                            break;
+                        case 4:
+                            RentalPricesController priceCont = new RentalPricesController();
+                            Console.Clear();
+                            Console.WriteLine("Below is all the information from the price table.\n");
+                            foreach (var p in priceCont.GetAll())
+                            {
+                                Console.WriteLine($"Price category: {p.price_category} \nHour price: {p.hour_price}\nDay price: {p.day_price} \n");
+                            }
+                            Console.ReadLine();
+                            break;
+                        case 5:
+                            InvoiceInfoController invoiceCont = new InvoiceInfoController();
+                            Console.Clear();
+                            Console.WriteLine("Below is all the information from the invocie table.\n");
+                            foreach (var i in invoiceCont.GetAll())
+                            {
+                                Console.WriteLine($"Invoice number: {i.invoice_number} \nCustomer id: {i.customer_id}\nOrder number: {i.order_number} \nName: {i.first_name} {i.last_name} \nAdress: {i.invoice_adress} \nC/O adress: {i.co_adress} \nPostal number: {i.postal_number} {i.city}\n");
+                            }
+                            Console.ReadLine();
+                            break;
                     }
-                    Console.ReadLine();
                     break;
+                }
+                catch
+                {
+                    Console.WriteLine(" ");
+                    Console.WriteLine("Wrong input, press any key and try again!");
+                    Console.ReadKey();
+                    Console.Clear();
+                }
             }
         }
 
-        //public static void PrintGetSpecificMenu()
-        //{
+        internal static void PrintGetSpecificMenu()
+        {
+            Console.Clear();
+            while (true)
+            {
+                Console.WriteLine("Pick a table below to search in.\n1.Customers.\n2.Bicycles.\n3.Orders.\n4.Prices.\n5.Invoices.");
+                try
+                {
+                    Menu.HandleGetSpecificMenuInput(int.Parse(Console.ReadLine()));
+                    break;
+                }
+                catch
+                {
+                    Console.WriteLine(" ");
+                    Console.WriteLine("Wrong input, press any key and try again!");
+                    Console.ReadKey();
+                    Console.Clear();
+                }
+            }
+        }
 
-        //}
+        internal static void HandleGetSpecificMenuInput(int input)
+        {
+            while (true)
+            {
+                try
+                {
+                    switch (input)
+                    {
+                        case 1:
+                            CustomersController customerCont = new CustomersController();
+                            int category;
+                            string sCategory;
+                            string sInput;
+                            Console.Clear();
 
-        //public static int HandleGetSpecificMenuInput()
-        //{
+                            Console.WriteLine("What parameter do you want to filter your search by? Enter one of the numbers below.\n1 = Customer id\n2 = First name\n3 = Last name\n4 = Phone number");
+                            category = int.Parse(Console.ReadLine());
+                            if (category == 1)
+                            {
+                                sCategory = "customer_id";
+                            }
+                            else if (category == 2)
+                            {
+                                sCategory = "first_name";
+                            }
+                            else if (category == 3)
+                            {
+                                sCategory = "last_name";
+                            }
+                            else if (category == 4)
+                            {
+                                sCategory = "phone_number";
+                            }
+                            else
+                            {
+                                sCategory = null;
+                            }
+                            Console.Clear();
 
-        //}
+                            Console.Write("Now enter the search value. The input does not need to include the exact value just parts of it is ok. \nEnter the search value: \n");
+                            sInput = Console.ReadLine();
+                            Console.Clear();
+
+                            Console.WriteLine("Result:\n");
+                            foreach (var c in customerCont.GetByString(sCategory, sInput))
+                            {
+                                Console.WriteLine($"ID: {c.customer_id} \nFirst name: {c.first_name} \nLast name: {c.last_name} \nPhone number: +46{c.phone_number}\n");
+                            }
+
+                            Console.ReadKey();
+                            break;
+                        case 2:
+                            BicyclesController bicycleCont = new BicyclesController();
+                            Console.Clear();
+                            
+                            break;
+                        case 3:
+                            RentalOrdersController orderCont = new RentalOrdersController();
+                            Console.Clear();
+                            
+                            break;
+                        case 4:
+                            RentalPricesController priceCont = new RentalPricesController();
+                            Console.Clear();
+                            
+                            break;
+                        case 5:
+                            InvoiceInfoController invoiceCont = new InvoiceInfoController();
+                            Console.Clear();
+
+                            break;
+                    }
+                    break;
+                }
+                catch
+                {
+                    Console.WriteLine(" ");
+                    Console.WriteLine("Wrong input, press any key and try again!");
+                    Console.ReadKey();
+                    Console.Clear();
+                }
+            }
+        }
 
         //public static void PrintAddMenu()
         //{

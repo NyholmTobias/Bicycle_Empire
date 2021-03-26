@@ -16,15 +16,29 @@ namespace Bicycle_Empire
 
         public List<Customers> GetAll()
         {
-            List<Customers> customers = this.db.Query<Customers>("Select * From Customers").AsList();
+            List<Customers> customers = this.db.Query<Customers>("SELECT * FROM Customers").ToList();
             
             return customers;
         }
 
-        //public List<Customers> GetByString(string input)
-        //{
-
-        //}
+        public List<Customers> GetByString(string category, string input)
+        {
+            if (category == "customer_id")
+            {
+                List<Customers> customers = this.db.Query<Customers>($"SELECT * FROM Customers WHERE {category} = {int.Parse(input)}").ToList();
+                return customers;
+            }
+            else if (category == "phone_number")
+            {
+                List<Customers> customers = this.db.Query<Customers>($"SELECT * FROM Customers WHERE {category} LIKE '%{int.Parse(input)}%'").ToList();
+                return customers;
+            }
+            else
+            {
+                List<Customers> customers = this.db.Query<Customers>($"SELECT * FROM Customers WHERE {category} LIKE '%{input}%'").ToList();
+                return customers;
+            }
+        }
 
         //public List<Customers> GetByInt(int input)
         //{
