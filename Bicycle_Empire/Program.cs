@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Dapper;
+using System.Data.SqlClient;
+using System.Configuration;
 
 namespace Bicycle_Empire
 {
@@ -10,6 +10,7 @@ namespace Bicycle_Empire
     {
         static void Main(string[] args)
         {
+            Menu.PrintMainMenu();
         }
     }
 }
