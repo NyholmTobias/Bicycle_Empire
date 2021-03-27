@@ -174,14 +174,16 @@ namespace Bicycle_Empire
                     int category;
                     string sCategory;
                     string sInput;
+
+                    Console.WriteLine("What parameter do you want to filter your search by? Enter one of the numbers below.\n1 = Customer id\n2 = First name\n3 = Last name\n4 = Phone number");
+                    category = int.Parse(Console.ReadLine());
+                    Console.Clear();
+
                     switch (input)
                     {
                         case 1:
                             CustomersController customerCont = new CustomersController();
-                            Console.Clear();
 
-                            Console.WriteLine("What parameter do you want to filter your search by? Enter one of the numbers below.\n1 = Customer id\n2 = First name\n3 = Last name\n4 = Phone number");
-                            category = int.Parse(Console.ReadLine());
                             if (category == 1)
                             {
                                 sCategory = "customer_id";
@@ -218,10 +220,7 @@ namespace Bicycle_Empire
                             break;
                         case 2:
                             BicyclesController bicycleCont = new BicyclesController();
-                            Console.Clear();
 
-                            Console.WriteLine("What parameter do you want to filter your search by? Enter one of the numbers below.\n1 = Bicycle id\n2 = Price category\n3 = Rental status\n4 = Model");
-                            category = int.Parse(Console.ReadLine());
                             if (category == 1)
                             {
                                 sCategory = "bicycle_id";
@@ -258,10 +257,7 @@ namespace Bicycle_Empire
                             break;
                         case 3:
                             RentalOrdersController orderCont = new RentalOrdersController();
-                            Console.Clear();
 
-                            Console.WriteLine("What parameter do you want to filter your search by? Enter one of the numbers below.\n1 = Order number\n2 = Customer id\n3 = Bicycle id\n4 = Order date\n5 = Return date\n6 = Hours rented\n7 = Days rented");
-                            category = int.Parse(Console.ReadLine());
                             if (category == 1)
                             {
                                 sCategory = "order_number";
@@ -310,10 +306,7 @@ namespace Bicycle_Empire
                             break;
                         case 4:
                             RentalPricesController priceCont = new RentalPricesController();
-                            Console.Clear();
 
-                            Console.WriteLine("What parameter do you want to filter your search by? Enter one of the numbers below.\n1 = Price category\n2 = Hour price\n3 = Day price");
-                            category = int.Parse(Console.ReadLine());
                             if (category == 1)
                             {
                                 sCategory = "price_category";
@@ -346,14 +339,65 @@ namespace Bicycle_Empire
                             break;
                         case 5:
                             InvoiceInfoController invoiceCont = new InvoiceInfoController();
+
+                            if (category == 1)
+                            {
+                                sCategory = "invoice_number";
+                            }
+                            else if (category == 2)
+                            {
+                                sCategory = "customer_id";
+                            }
+                            else if (category == 3)
+                            {
+                                sCategory = "order_number";
+                            }
+                            else if (category == 4)
+                            {
+                                sCategory = "first_name";
+                            }
+                            else if (category == 5)
+                            {
+                                sCategory = "last_name";
+                            }
+                            else if (category == 6)
+                            {
+                                sCategory = "invoice_adress";
+                            }
+                            else if (category == 7)
+                            {
+                                sCategory = "co_adress";
+                            }
+                            else if (category == 8)
+                            {
+                                sCategory = "postal_number";
+                            }
+                            else if (category == 9)
+                            {
+                                sCategory = "city";
+                            }
+                            else
+                            {
+                                sCategory = null;
+                            }
                             Console.Clear();
+
+                            Console.Write("Now enter the search value. The input does not need to include the exact value just parts of it is ok. \nEnter the search value: \n");
+                            sInput = Console.ReadLine();
+                            Console.Clear();
+
+                            Console.WriteLine("Result:\n");
+                            foreach (var i in invoiceCont.GetByString(sCategory, sInput))
+                            {
+                                Console.WriteLine($"Invoice number: {i.invoice_number} \nCustomer id: {i.customer_id}\nOrder number: {i.order_number} \nName: {i.first_name} {i.last_name} \nAdress: {i.invoice_adress} \nC/O adress: {i.co_adress} \nPostal number: {i.postal_number} {i.city}\n");
+                            }
 
                             Console.ReadKey();
                             break;
                     }
                     break;
                 }
-                catch
+                catch 
                 {
                     Console.WriteLine(" ");
                     Console.WriteLine("Wrong input, press any key and try again!");
