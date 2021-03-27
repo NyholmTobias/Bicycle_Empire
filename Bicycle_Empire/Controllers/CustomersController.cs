@@ -16,7 +16,7 @@ namespace Bicycle_Empire
 
         public List<Customers> GetAll()
         {
-            List<Customers> customers = this.db.Query<Customers>("SELECT * FROM Customers").ToList();
+            List<Customers> customers = db.Query<Customers>("SELECT * FROM Customers").ToList();
             
             return customers;
         }
@@ -25,30 +25,27 @@ namespace Bicycle_Empire
         {
             if (category == "customer_id")
             {
-                List<Customers> customers = this.db.Query<Customers>($"SELECT * FROM Customers WHERE {category} = {int.Parse(input)} ORDER BY {category}").ToList();
+                List<Customers> customers = db.Query<Customers>($"SELECT * FROM Customers WHERE {category} = {int.Parse(input)} ORDER BY {category}").ToList();
                 return customers;
             }
             else if (category == "phone_number")
             {
-                List<Customers> customers = this.db.Query<Customers>($"SELECT * FROM Customers WHERE {category} LIKE '%{int.Parse(input)}%' ORDER BY {category}").ToList();
+                List<Customers> customers = db.Query<Customers>($"SELECT * FROM Customers WHERE {category} LIKE '%{int.Parse(input)}%' ORDER BY {category}").ToList();
                 return customers;
             }
             else
             {
-                List<Customers> customers = this.db.Query<Customers>($"SELECT * FROM Customers WHERE {category} LIKE '%{input}%' ORDER BY {category}").ToList();
+                List<Customers> customers = db.Query<Customers>($"SELECT * FROM Customers WHERE {category} LIKE '%{input}%' ORDER BY {category}").ToList();
                 return customers;
             }
         }
 
-        //public List<Customers> GetByInt(int input)
-        //{
+        public int Add(string firstName, string lastName, int phoneNumber)
+        {
+            var affectedRows = db.Execute($@"INSERT INTO Customers(first_name, last_name, phone_number) VALUES (@first_name, @last_name, @phone_number)", new Customers {first_name = firstName, last_name = lastName, phone_number = phoneNumber });
 
-        //}
-
-        //public Customers Add()
-        //{
-
-        //}
+            return affectedRows;
+        }
 
         //public Customers Update(int id)
         //{

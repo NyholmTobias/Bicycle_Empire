@@ -16,7 +16,7 @@ namespace Bicycle_Empire
 
         public List<Bicycles> GetAll()
         {
-            List<Bicycles> bicycles = this.db.Query<Bicycles>("Select * From Bicycles").ToList();
+            List<Bicycles> bicycles = db.Query<Bicycles>("Select * From Bicycles").ToList();
 
             return bicycles;
         }
@@ -25,25 +25,20 @@ namespace Bicycle_Empire
         {
             if (category == "bicycle_id")
             {
-                List<Bicycles> bicycles = this.db.Query<Bicycles>($"SELECT * FROM Bicycles WHERE {category} = {int.Parse(input)} ORDER BY {category}").ToList();
+                List<Bicycles> bicycles = db.Query<Bicycles>($"SELECT * FROM Bicycles WHERE {category} = {int.Parse(input)} ORDER BY {category}").ToList();
                 return bicycles;
             }
             else if (category == "price_category")
             {
-                List<Bicycles> bicycles = this.db.Query<Bicycles>($"SELECT * FROM Bicycles WHERE {category} = {int.Parse(input)} ORDER BY {category}").ToList();
+                List<Bicycles> bicycles = db.Query<Bicycles>($"SELECT * FROM Bicycles WHERE {category} = {int.Parse(input)} ORDER BY {category}").ToList();
                 return bicycles;
             }
             else
             {
-                List<Bicycles> bicycles = this.db.Query<Bicycles>($"SELECT * FROM Bicycles WHERE {category} LIKE '%{input}%' ORDER BY {category}").ToList();
+                List<Bicycles> bicycles = db.Query<Bicycles>($"SELECT * FROM Bicycles WHERE {category} LIKE '%{input}%' ORDER BY {category}").ToList();
                 return bicycles;
             }
         }
-
-        //public List<Customers> GetByInt(int input)
-        //{
-
-        //}
 
         //public Customers Add()
         //{

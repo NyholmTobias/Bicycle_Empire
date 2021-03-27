@@ -13,8 +13,8 @@ namespace Bicycle_Empire
             while (true)
             {
                 Console.Clear();
-                Console.WriteLine("Welcome! \nWhat do you want to do?\n");
-                Console.WriteLine("1. See all the info from a category.\n2. Search for information by entering a specific value.\n6. Exit\n");
+                Console.WriteLine("Welcome to Bicycle Empires database! \nWhat do you want to do?\n");
+                Console.WriteLine("1. See all the info in a table.\n2. Search for information by entering a specific value.\n3. Add to a table.\n6. Exit\n");
 
                 try
                 {
@@ -39,6 +39,9 @@ namespace Bicycle_Empire
                     break;
                 case 2:
                     Menu.PrintGetSpecificMenu();
+                    break;
+                case 3:
+                    Menu.PrintAddMenu();
                     break;
                 case 6:
                     Environment.Exit(0);
@@ -175,14 +178,14 @@ namespace Bicycle_Empire
                     string sCategory;
                     string sInput;
 
-                    Console.WriteLine("What parameter do you want to filter your search by? Enter one of the numbers below.\n1 = Customer id\n2 = First name\n3 = Last name\n4 = Phone number");
-                    category = int.Parse(Console.ReadLine());
-                    Console.Clear();
-
                     switch (input)
                     {
                         case 1:
                             CustomersController customerCont = new CustomersController();
+
+                            Console.Clear();
+                            Console.WriteLine("What parameter do you want to filter your search by? Enter one of the numbers below.\n1 = Customer id\n2 = First name\n3 = Last name\n4 = Phone number");
+                            category = int.Parse(Console.ReadLine());
 
                             if (category == 1)
                             {
@@ -221,6 +224,10 @@ namespace Bicycle_Empire
                         case 2:
                             BicyclesController bicycleCont = new BicyclesController();
 
+                            Console.Clear();
+                            Console.WriteLine("What parameter do you want to filter your search by? Enter one of the numbers below.\n1 = Bicycle id\n2 = Price category\n3 = Rental status\n4 = Model");
+                            category = int.Parse(Console.ReadLine());
+
                             if (category == 1)
                             {
                                 sCategory = "bicycle_id";
@@ -258,9 +265,13 @@ namespace Bicycle_Empire
                         case 3:
                             RentalOrdersController orderCont = new RentalOrdersController();
 
+                            Console.Clear();
+                            Console.WriteLine("What parameter do you want to filter your search by? Enter one of the numbers below.\n1 = Order number\n2 = Customer id\n3 = Bicycle id\n4 = Order date\n5 = Return date\n6 = Rental hours\n7 = Rental days");
+                            category = int.Parse(Console.ReadLine());
+
                             if (category == 1)
                             {
-                                sCategory = "order_number";
+                                sCategory = "order_number"; 
                             }
                             else if (category == 2)
                             {
@@ -307,6 +318,10 @@ namespace Bicycle_Empire
                         case 4:
                             RentalPricesController priceCont = new RentalPricesController();
 
+                            Console.Clear();
+                            Console.WriteLine("What parameter do you want to filter your search by? Enter one of the numbers below.\n1 = Price category\n2 = Hour price\n3 = Day price");
+                            category = int.Parse(Console.ReadLine());
+
                             if (category == 1)
                             {
                                 sCategory = "price_category";
@@ -339,6 +354,10 @@ namespace Bicycle_Empire
                             break;
                         case 5:
                             InvoiceInfoController invoiceCont = new InvoiceInfoController();
+
+                            Console.Clear();
+                            Console.WriteLine("What parameter do you want to filter your search by? Enter one of the numbers below.\n1 = Invoice number\n2 = Customer id\n3 = Order number\n4 = First name\n5 = Last name\n6 = Adress\n7 = C/O adress\n8 = Postal number\n9 = City");
+                            category = int.Parse(Console.ReadLine());
 
                             if (category == 1)
                             {
@@ -407,15 +426,63 @@ namespace Bicycle_Empire
             }
         }
 
-        //public static void PrintAddMenu()
-        //{
+        internal static void PrintAddMenu()
+        {
+            Console.Clear();
+            while (true)
+            {
+                Console.WriteLine("What table do you want to add to?\n1.Customers.\n2.Bicycles.\n3.Orders.\n4.Prices.\n5.Invoices.");
+                try
+                {
+                    Menu.HandleAddMenuInput(int.Parse(Console.ReadLine()));
+                    break;
+                }
+                catch
+                {
+                    Console.WriteLine(" ");
+                    Console.WriteLine("Wrong input, press any key and try again!");
+                    Console.ReadKey();
+                    Console.Clear();
+                }
+            }
+        }
 
-        //}
+        internal static void HandleAddMenuInput(int input)
+        {
+            CustomersController cController = new CustomersController();
+            
+            while (true)
+            {
+                try
+                {
+                    switch (input)
+                    {
+                        case 1:
+                            Console.Clear();
+                            Console.Write("First name: ");
+                            var cFirstName = Console.ReadLine();
+                            Console.Clear();
+                            Console.Write("Last name: ");
+                            var cLastName = Console.ReadLine();
+                            Console.Clear();
+                            Console.Write("Phone number: ");
+                            var cPhoneNumber = int.Parse(Console.ReadLine());
 
-        //public static int HandleAddMenuInput()
-        //{
-
-        //}
+                            Console.Clear();
+                            Console.WriteLine($"{cController.Add(cFirstName, cLastName, cPhoneNumber)} new row has been added");
+                            Console.ReadKey();
+                            break;
+                    }
+                }
+                catch
+                {
+                    Console.Clear();
+                    Console.Write("Wrong input, press any key and try again.");
+                    Console.ReadKey();
+                }
+                break;
+            }
+        }
 
         //public static void PrintUpdateMenu()
         //{

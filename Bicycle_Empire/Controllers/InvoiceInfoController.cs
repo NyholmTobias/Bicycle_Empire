@@ -16,7 +16,7 @@ namespace Bicycle_Empire
 
         public List<Invoice_Info> GetAll()
         {
-            List<Invoice_Info> invoiceInfo = this.db.Query<Invoice_Info>("Select * From Invoice_Info").ToList();
+            List<Invoice_Info> invoiceInfo = db.Query<Invoice_Info>("Select * From Invoice_Info").ToList();
 
             return invoiceInfo;
         }
@@ -25,25 +25,20 @@ namespace Bicycle_Empire
         {
             if (category == "invoice_number" || category == "order_number" || category == "customer_id")
             {
-                List<Invoice_Info> invoiceInfo = this.db.Query<Invoice_Info>($"SELECT * FROM Customers WHERE {category} = {int.Parse(input)} ORDER BY {category}").ToList();
+                List<Invoice_Info> invoiceInfo = db.Query<Invoice_Info>($"SELECT * FROM Invoice_Info WHERE {category} = {int.Parse(input)} ORDER BY {category}").ToList();
                 return invoiceInfo;
             }
             else if (category == "postal_number")
             {
-                List<Invoice_Info> invoiceInfo = this.db.Query<Invoice_Info>($"SELECT * FROM Customers WHERE {category} LIKE '%{int.Parse(input)}%' ORDER BY {category}").ToList();
+                List<Invoice_Info> invoiceInfo = db.Query<Invoice_Info>($"SELECT * FROM Invoice_Info WHERE {category} LIKE '%{int.Parse(input)}%' ORDER BY {category}").ToList();
                 return invoiceInfo;
             }
             else
             {
-                List<Invoice_Info> invoiceInfo = this.db.Query<Invoice_Info>($"SELECT * FROM Customers WHERE {category} LIKE '%{input}%' ORDER BY {category}").ToList();
+                List<Invoice_Info> invoiceInfo = db.Query<Invoice_Info>($"SELECT * FROM Invoice_Info WHERE {category} LIKE '%{input}%' ORDER BY {category}").ToList();
                 return invoiceInfo;
             }
         }
-
-        //public List<Customers> GetByInt(int input)
-        //{
-
-        //}
 
         //public Customers Add()
         //{

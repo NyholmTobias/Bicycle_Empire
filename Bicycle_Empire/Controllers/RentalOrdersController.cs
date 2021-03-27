@@ -16,7 +16,7 @@ namespace Bicycle_Empire
 
         public List<Rental_Orders> GetAll()
         {
-            List<Rental_Orders> rentalOrders = this.db.Query<Rental_Orders>("Select * From Rental_Orders").ToList();
+            List<Rental_Orders> rentalOrders = db.Query<Rental_Orders>("Select * From Rental_Orders").ToList();
 
             return rentalOrders;
         }
@@ -25,20 +25,15 @@ namespace Bicycle_Empire
         {
             if (category == "order_date" || category == "return_date")
             {
-                List<Rental_Orders> rentalOrders = this.db.Query<Rental_Orders>($"SELECT * FROM Rental_Orders WHERE {category} LIKE '%{input}%' ORDER BY {category}").ToList();
+                List<Rental_Orders> rentalOrders = db.Query<Rental_Orders>($"SELECT * FROM Rental_Orders WHERE {category} LIKE '%{input}%' ORDER BY {category}").ToList();
                 return rentalOrders;
             }
             else
             {
-                List<Rental_Orders> rentalOrders = this.db.Query<Rental_Orders>($"SELECT * FROM Rental_Orders WHERE {category} LIKE '%{int.Parse(input)}%' ORDER BY {category}").ToList();
+                List<Rental_Orders> rentalOrders = db.Query<Rental_Orders>($"SELECT * FROM Rental_Orders WHERE {category} LIKE '%{int.Parse(input)}%' ORDER BY {category}").ToList();
                 return rentalOrders;
             }
         }
-
-        //public List<Customers> GetByInt(int input)
-        //{
-
-        //}
 
         //public Customers Add()
         //{
