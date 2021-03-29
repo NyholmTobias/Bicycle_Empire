@@ -40,15 +40,29 @@ namespace Bicycle_Empire
             }
         }
 
-        //public Customers Add()
-        //{
+        public int Add(Invoice_Info i)
+        {
+            var affectedRows = db.Execute("INSERT INTO Invoice_Info(customer_id, order_number, first_name, last_name, invoice_adress, co_adress, postal_number, city) " +
+                                          "VALUES (@customer_id, @order_number, @first_name, @last_name, @invoice_adress, @co_adress, @postal_number, @city)", i);
 
-        //}
+            return affectedRows;
+        }
 
-        //public Customers Update(int id)
-        //{
-
-        //}
+        public void Update(int id, string category, string input)
+        { 
+            if (category == "customer_id" || category == "order_number" || category == "postal_number")
+            {
+                db.Execute("UPDATE Rental_Orders " +
+                        $"SET {category} = {int.Parse(input)} " +
+                        $"WHERE order_number = {id}");
+            }
+            else
+            {
+                db.Execute("UPDATE Rental_Orders " +
+                            $"SET {category} = '{input}' " +
+                            $"WHERE order_number = {id}");
+            }
+        }
 
         //public string Delete(int id)
         //{

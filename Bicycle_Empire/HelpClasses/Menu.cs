@@ -14,7 +14,7 @@ namespace Bicycle_Empire
             {
                 Console.Clear();
                 Console.WriteLine("Welcome to Bicycle Empires database! \nWhat do you want to do?\n");
-                Console.WriteLine("1. See all the info in a table.\n2. Search for information by entering a specific value.\n3. Add to a table.\n6. Exit\n");
+                Console.WriteLine("1. See all the info in a table.\n2. Search for information by entering a specific value.\n3. Add to a table.\n4. Update information.\n6. Exit\n");
 
                 try
                 {
@@ -42,6 +42,9 @@ namespace Bicycle_Empire
                     break;
                 case 3:
                     Menu.PrintAddMenu();
+                    break;
+                case 4:
+                    Menu.PrintUpdateMenu();
                     break;
                 case 6:
                     Environment.Exit(0);
@@ -448,9 +451,7 @@ namespace Bicycle_Empire
         }
 
         internal static void HandleAddMenuInput(int input)
-        {
-            CustomersController cController = new CustomersController();
-            
+        {    
             while (true)
             {
                 try
@@ -458,18 +459,107 @@ namespace Bicycle_Empire
                     switch (input)
                     {
                         case 1:
-                            Console.Clear();
-                            Console.Write("First name: ");
-                            var cFirstName = Console.ReadLine();
-                            Console.Clear();
-                            Console.Write("Last name: ");
-                            var cLastName = Console.ReadLine();
-                            Console.Clear();
-                            Console.Write("Phone number: ");
-                            var cPhoneNumber = int.Parse(Console.ReadLine());
+                            CustomersController cController = new CustomersController();
 
                             Console.Clear();
-                            Console.WriteLine($"{cController.Add(cFirstName, cLastName, cPhoneNumber)} new row has been added");
+
+                            Console.WriteLine("Enter the information below.\n");
+                            Console.Write("First name: ");
+                            var firstName = Console.ReadLine();
+                            char.ToUpper(firstName[0]);
+                            Console.Write("Last name: ");
+                            var lastName = Console.ReadLine();
+                            char.ToUpper(lastName[0]);
+                            Console.Write("Phone number: ");
+                            var phoneNumber = int.Parse(Console.ReadLine());
+
+                            Console.Clear();
+
+                            Console.WriteLine($"{cController.Add(new Customers { first_name = firstName, last_name = lastName, phone_number = phoneNumber })} new customer has been added");
+                            Console.ReadKey();
+                            break;
+
+                        case 2:
+                            BicyclesController bController = new BicyclesController();
+
+                            Console.Clear();
+
+                            Console.WriteLine("Enter the information below.\n");
+                            Console.Write("Price category: ");
+                            var priceCategory = int.Parse(Console.ReadLine());
+                            Console.Write("Model: ");
+                            var model = Console.ReadLine();
+
+                            Console.Clear();
+
+                            Console.WriteLine($"{bController.Add(new Bicycles { price_category = priceCategory, model = model })} new bike has been added");
+                            Console.ReadKey();
+                            break;
+
+                        case 3:
+                            RentalOrdersController oController = new RentalOrdersController();
+
+                            Console.Clear();
+
+                            Console.WriteLine("Enter the information below.\n");
+                            Console.Write("Customer ID: ");
+                            var customerID = int.Parse(Console.ReadLine());
+                            Console.Write("Bicycle ID: ");
+                            var bicycleID = int.Parse(Console.ReadLine());
+                            Console.Write("Return date (format yyyy-mm-dd hh:mm:ss): ");
+                            var returnDate = Console.ReadLine();
+
+                            Console.Clear();
+
+                            Console.WriteLine($"{oController.Add(new Rental_Orders { customer_id = customerID, bicycle_id = bicycleID, return_date = returnDate })} new order has been added");
+                            Console.ReadKey();
+                            break;
+
+                        case 4:
+                            RentalPricesController pController = new RentalPricesController();
+
+                            Console.Clear();
+
+                            Console.WriteLine("Enter the information below.\n");
+                            Console.Write("Hour price: ");
+                            var hourPrice = int.Parse(Console.ReadLine());
+                            Console.Write("Day price: ");
+                            var dayPrice = int.Parse(Console.ReadLine());
+
+                            Console.Clear();
+
+                            Console.WriteLine($"{pController.Add(new Rental_Prices { hour_price = hourPrice, day_price = dayPrice })} new price category has been added");
+                            Console.ReadKey();
+                            break;
+
+                        case 5:
+                            InvoiceInfoController iController = new InvoiceInfoController();
+
+                            Console.Clear();
+
+                            Console.WriteLine("Enter the information below.\n");
+                            Console.Write("Customer id: ");
+                            var customerId = int.Parse(Console.ReadLine());
+                            Console.Write("Order number: ");
+                            var orderNumber = int.Parse(Console.ReadLine());
+                            Console.Write("First name: ");
+                            firstName = Console.ReadLine();
+                            char.ToUpper(firstName[0]);
+                            Console.Write("Last name: ");
+                            lastName = Console.ReadLine();
+                            char.ToUpper(lastName[0]);
+                            Console.Write("Invoice adress: ");
+                            var invoiceAdress = Console.ReadLine();
+                            Console.Write("C/O adress: ");
+                            var coAdress = Console.ReadLine();
+                            Console.Write("Postal number (format nnnnn): ");
+                            var postalNumber = int.Parse(Console.ReadLine());
+                            Console.Write("City: ");
+                            var city = Console.ReadLine();
+                            
+                            Console.Clear();
+
+                            Console.WriteLine($"{iController.Add(new Invoice_Info { customer_id = customerId, order_number = orderNumber, first_name = firstName, last_name = lastName, invoice_adress = invoiceAdress, co_adress = coAdress, postal_number = postalNumber, city = city })} new invoice has been added");
                             Console.ReadKey();
                             break;
                     }
@@ -484,22 +574,285 @@ namespace Bicycle_Empire
             }
         }
 
-        //public static void PrintUpdateMenu()
+        internal static void PrintUpdateMenu()
+        {
+            Console.Clear();
+            while (true)
+            {
+                Console.WriteLine("What table do you want to update?\n1.Customers.\n2.Bicycles.\n3.Orders.\n4.Prices.\n5.Invoices.");
+                try
+                {
+                    Menu.HandleUpdateMenuInput(int.Parse(Console.ReadLine()));
+                    break;
+                }
+                catch
+                {
+                    Console.WriteLine(" ");
+                    Console.WriteLine("Wrong input, press any key and try again!");
+                    Console.ReadKey();
+                    Console.Clear();
+                }
+            }
+        }
+
+        internal static void HandleUpdateMenuInput(int input)
+        {
+            while (true)
+            {
+                try
+                {
+                    int category, id;
+                    string sCategory;
+                    string sInput;
+
+                    switch (input)
+                    {
+                        case 1:
+                            CustomersController customerCont = new CustomersController();
+                            Console.Clear();
+
+                            Console.Write("Enter the customer number that you want to update: ");
+                            id = int.Parse(Console.ReadLine());
+
+                            var customer = customerCont.GetByString("customer_id", $"{id.ToString()}").Single();
+                            Console.WriteLine($"ID: {customer.customer_id} \nFirst name: {customer.first_name} \nLast name: {customer.last_name} \nPhone number: +46{customer.phone_number}\n");
+
+                            Console.Write("What information do you want to update? Enter one of the numbers below.\n1 = First name\n2 = Last name\n3 = Phone number\n");
+                            category = int.Parse(Console.ReadLine());
+
+                            if (category == 1)
+                            {
+                                sCategory = "first_name";
+                            }
+                            else if (category == 2)
+                            {
+                                sCategory = "last_name";
+                            }
+                            else if (category == 3)
+                            {
+                                sCategory = "phone_number";
+                            }
+                            else
+                            {
+                                sCategory = null;
+                            }
+
+                            Console.Write("Now enter the new value: ");
+                            sInput = Console.ReadLine();
+                            Console.Clear();
+
+                            customerCont.Update(id, sCategory, sInput);
+
+                            Console.WriteLine("Result:\n");
+                            customer = customerCont.GetByString("customer_id", $"{id.ToString()}").Single();
+                            Console.WriteLine($"ID: {customer.customer_id} \nFirst name: {customer.first_name} \nLast name: {customer.last_name} \nPhone number: +46{customer.phone_number}\n");
+                            
+                            Console.ReadKey();
+                            break;
+                        case 2:
+                            BicyclesController bicycleCont = new BicyclesController();
+                            Console.Clear();
+
+                            Console.Write("Enter the bicycle id that you want to update information on: ");
+                            id = int.Parse(Console.ReadLine());
+                            var bike = bicycleCont.GetByString("bicycle_id", $"{id.ToString()}").Single();
+                            Console.WriteLine($"ID: {bike.bicycle_id} \nModel: {bike.model} \nPrice category: {bike.price_category} \nRental status: {bike.rental_status}\n");
+
+                            Console.WriteLine("What information do you want to update? Enter one of the numbers below.\n1 = Price category\n2 = Rental status\n3 = model\n");
+                            category = int.Parse(Console.ReadLine());
+
+                            if (category == 1)
+                            {
+                                sCategory = "price_category";
+                            }
+                            else if (category == 2)
+                            {
+                                sCategory = "rental_status";
+                            }
+                            else if (category == 3)
+                            {
+                                sCategory = "model";
+                            }
+                            else
+                            {
+                                sCategory = null;
+                            }
+
+                            Console.Write("Now enter the new value: ");
+                            sInput = Console.ReadLine();
+                            Console.Clear();
+
+                            bicycleCont.Update(id, sCategory, sInput);
+
+                            Console.WriteLine("Result:\n");
+                            bike = bicycleCont.GetByString("bicycle_id", $"{id.ToString()}").Single();
+                            Console.WriteLine($"ID: {bike.bicycle_id} \nModel: {bike.model} \nPrice category: {bike.price_category} \nRental status: {bike.rental_status}\n");
+                            
+
+                            Console.ReadKey();
+                            break;
+                        case 3:
+                            // OBS! kan inte uppdatera return_date eftersom det finns en CHECK på return_date i SQL som är felaktig. Man måste droppa den och lägga in följande kod: ALTER TABLE Rental_Orders
+                            // ADD CHECK(return_date > order_date); Då fungerar det.
+
+                            RentalOrdersController orderCont = new RentalOrdersController();
+                            Console.Clear();
+
+                            Console.Write("Enter the order number for the order that you want to update: ");
+                            id = int.Parse(Console.ReadLine());
+                            var order = orderCont.GetByString("order_number", $"{id.ToString()}").Single();
+                            Console.WriteLine($"Order number: {order.order_number} \nCustomer id: {order.customer_id}\nBicycle id: {order.bicycle_id} \nOrder date: {order.order_date} \nReturn date: {order.return_date}\nRental hours: {order.rent_time}\nRental days: {order.days_rented}\n");
+
+                            Console.WriteLine("What information do you want to update? Enter one of the numbers below.\n1 = Customer id\n2 = Bicycle id\n3 = Return date\n");
+                            category = int.Parse(Console.ReadLine());
+
+                            if (category == 1)
+                            {
+                                sCategory = "customer_id";
+                            }
+                            else if (category == 2)
+                            {
+                                sCategory = "bicycle_id";
+                            }
+                            else if (category == 3)
+                            {
+                                sCategory = "return_date";
+                            }
+                            else
+                            {
+                                sCategory = null;
+                            }
+
+                            Console.Write("Now enter the new value: ");
+                            sInput = Console.ReadLine();
+                            Console.Clear();
+
+                            orderCont.Update(id, sCategory, sInput);
+
+                            Console.WriteLine("Result:\n");
+                            order = orderCont.GetByString("order_number", $"{id.ToString()}").Single();
+                            Console.WriteLine($"Order number: {order.order_number} \nCustomer id: {order.customer_id}\nBicycle id: {order.bicycle_id} \nOrder date: {order.order_date} \nReturn date: {order.return_date}\nRental hours: {order.rent_time}\nRental days: {order.days_rented}\n");
+                           
+
+                            Console.ReadKey();
+                            break;
+                        case 4:
+                            RentalPricesController priceCont = new RentalPricesController();
+                            Console.Clear();
+
+                            Console.Write("Enter the price category that you want to update: ");
+                            id = int.Parse(Console.ReadLine());
+                            var priceCat = priceCont.GetByString("price_category", $"{id.ToString()}").Single();
+                            Console.WriteLine($"Price category: { priceCat.price_category} \nHour price: { priceCat.hour_price}\nDay price: { priceCat.day_price} \n");
+
+                            Console.WriteLine("What information do you want to update? Enter one of the numbers below.\n1 = Hour price:\n2 = Day price:\n");
+                            category = int.Parse(Console.ReadLine());
+
+                            if (category == 1)
+                            {
+                                sCategory = "hour_price";
+                            }
+                            else if (category == 2)
+                            {
+                                sCategory = "day_price";
+                            }
+                            else
+                            {
+                                sCategory = null;
+                            }
+
+                            Console.Write("Now enter the new value: ");
+                            sInput = Console.ReadLine();
+                            Console.Clear();
+
+                            priceCont.Update(id, sCategory, sInput);
+
+                            Console.WriteLine("Result:\n");
+                            priceCat = priceCont.GetByString("price_category", $"{id.ToString()}").Single();
+                            Console.WriteLine($"Price category: { priceCat.price_category} \nHour price: { priceCat.hour_price}\nDay price: { priceCat.day_price} \n");
+
+                            Console.ReadKey();
+                            break;
+                        case 5:
+                            InvoiceInfoController invoiceCont = new InvoiceInfoController();
+                            Console.Clear();
+
+                            Console.Write("Enter the invoice number of the invoice that you want to update: ");
+                            id = int.Parse(Console.ReadLine());
+                            var i = invoiceCont.GetByString("invoice_number", $"{id.ToString()}").Single();
+                            Console.WriteLine($"Invoice number: {i.invoice_number} \nCustomer id: {i.customer_id}\nOrder number: {i.order_number} \nName: {i.first_name} {i.last_name} \nAdress: {i.invoice_adress} \nC/O adress: {i.co_adress} \nPostal number: {i.postal_number} {i.city}\n");
+
+                            Console.WriteLine("What information do you want to update? Enter one of the numbers below.\n1 = Customer id\n2 = Order number\n3 = First name\n4 = Last name\n5 = Adress\n6 = C/O adress\n7 = Postal number\n8 = City\n");
+                            category = int.Parse(Console.ReadLine());
+
+                            if (category == 1)
+                            {
+                                sCategory = "customer_id";
+                            }
+                            else if (category == 2)
+                            {
+                                sCategory = "order_number";
+                            }
+                            else if (category == 3)
+                            {
+                                sCategory = "first_name";
+                            }
+                            else if (category == 4)
+                            {
+                                sCategory = "last_name";
+                            }
+                            else if (category == 5)
+                            {
+                                sCategory = "invoice_adress";
+                            }
+                            else if (category == 6)
+                            {
+                                sCategory = "co_adress";
+                            }
+                            else if (category == 7)
+                            {
+                                sCategory = "postal_number";
+                            }
+                            else if (category == 8)
+                            {
+                                sCategory = "city";
+                            }
+                            else
+                            {
+                                sCategory = null;
+                            }
+
+                            Console.Write("Now enter the new value: ");
+                            sInput = Console.ReadLine();
+                            Console.Clear();
+
+                            invoiceCont.Update(id, sCategory, sInput);
+
+                            Console.WriteLine("Result:\n");
+                            i = invoiceCont.GetByString("invoice_number", $"{id.ToString()}").Single();
+                            Console.WriteLine($"Invoice number: {i.invoice_number} \nCustomer id: {i.customer_id}\nOrder number: {i.order_number} \nName: {i.first_name} {i.last_name} \nAdress: {i.invoice_adress} \nC/O adress: {i.co_adress} \nPostal number: {i.postal_number} {i.city}\n");
+
+                            Console.ReadKey();
+                            break;
+                    }
+                    break;
+                }
+                catch
+                {
+                    Console.WriteLine(" ");
+                    Console.WriteLine("Wrong input, press any key and try again!");
+                    Console.ReadKey();
+                    Console.Clear();
+                }
+            }
+        }
+
+        //internal static void PrintDeleteMenu()
         //{
 
         //}
 
-        //public static int HandleUpdateMenuInput()
-        //{
-
-        //}
-
-        //public static void PrintDeleteMenu()
-        //{
-
-        //}
-
-        //public static int HandleDeleteMenuInput()
+        //internal static void HandleDeleteMenuInput(int input)
         //{
 
         //}

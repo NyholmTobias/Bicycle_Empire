@@ -40,15 +40,29 @@ namespace Bicycle_Empire
             }
         }
 
-        //public Customers Add()
-        //{
+        public int Add(Bicycles b)
+        {
+            // Behöver inte lägga in rental_status eftersom den sätts som "Vacant" by default. 
+            var affectedRows = db.Execute($"INSERT INTO Bicycles(price_category, model) VALUES (@price_category, @model)", b);
 
-        //}
+            return affectedRows;
+        }
 
-        //public Customers Update(int id)
-        //{
-
-        //}
+        public void Update(int id, string category, string input)
+        {
+            if (category == "price_category")
+            {
+                db.Execute("UPDATE Bicycles " +
+                        $"SET {category} = {int.Parse(input)} " +
+                        $"WHERE bicycle_id = {id}");
+            }
+            else
+            {
+                db.Execute("UPDATE Bicycles " +
+                            $"SET {category} = '{input}' " +
+                            $"WHERE bicycle_id = {id}");
+            }
+        }
 
         //public string Delete(int id)
         //{

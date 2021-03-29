@@ -16,6 +16,7 @@ namespace Bicycle_Empire
 
         public List<Customers> GetAll()
         {
+            //Returnerar en lista med alla objekt från en tabell.
             List<Customers> customers = db.Query<Customers>("SELECT * FROM Customers").ToList();
             
             return customers;
@@ -23,6 +24,7 @@ namespace Bicycle_Empire
 
         public List<Customers> GetByString(string category, string input)
         {
+            //Letar upp rätt objekt utifrån de inmatade sökkriterierna. 
             if (category == "customer_id")
             {
                 List<Customers> customers = db.Query<Customers>($"SELECT * FROM Customers WHERE {category} = {int.Parse(input)} ORDER BY {category}").ToList();
@@ -40,17 +42,28 @@ namespace Bicycle_Empire
             }
         }
 
-        public int Add(string firstName, string lastName, int phoneNumber)
+        public int Add(Customers c)
         {
-            var affectedRows = db.Execute($@"INSERT INTO Customers(first_name, last_name, phone_number) VALUES (@first_name, @last_name, @phone_number)", new Customers {first_name = firstName, last_name = lastName, phone_number = phoneNumber });
+            // lägger till det inmatade objektet i databasen.
+            var affectedRows = db.Execute($"INSERT INTO Customers(first_name, last_name, phone_number) VALUES (@first_name, @last_name, @phone_number)", c);
 
             return affectedRows;
         }
 
-        //public Customers Update(int id)
-        //{
-
-        //}
+        public void Update(int id, string category, string input)
+        {
+            // Uppdaterar det valda objektet med den valda inputen.
+            if (category == "phone_number")
+            {
+                db.Execute("UPDATE Customers " +
+                        $"SET {category} = {int.Parse(input)} " +
+                        $"WHERE bicycle_id = {id}");
+            }
+            
+            db.Execute("UPDATE Customers " +
+                        $"SET {category} = '{input}' " +
+                        $"WHERE customer_id = {id}");
+        }
 
         //public string Delete(int id)
         //{

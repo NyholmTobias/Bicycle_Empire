@@ -27,15 +27,19 @@ namespace Bicycle_Empire
             return rentalPrices;   
         }
 
-        //public Customers Add()
-        //{
+        public int Add(Rental_Prices p)
+        {
+            var affectedRows = db.Execute($"INSERT INTO Rental_Prices(hour_price, day_price) VALUES (@hour_price, @day_price)", p);
 
-        //}
+            return affectedRows;
+        }
 
-        //public Customers Update(int id)
-        //{
-
-        //}
+        public void Update(int id, string category, string input)
+        {
+            db.Execute("UPDATE Rental_Prices " +
+                    $"SET {category} = {double.Parse(input)} " +
+                    $"WHERE price_category = {id}");
+        }
 
         //public string Delete(int id)
         //{
