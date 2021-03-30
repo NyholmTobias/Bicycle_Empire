@@ -1,12 +1,9 @@
 ﻿using Dapper;
-using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Bicycle_Empire
 {
@@ -65,9 +62,23 @@ namespace Bicycle_Empire
                         $"WHERE customer_id = {id}");
         }
 
-        //public string Delete(int id)
-        //{
+        public int Delete(int id)
+        {
+            //Tar bort allt som är assosierat med det valda kundnumret. 
+            var effectedRows = db.Execute("DELETE " +
+                                           "FROM Invoice_Info " +
+                                          $"WHERE customer_id = {id}");
 
-        //}
+            // Här var jag tvungen att lägga till "DELETE CASCADE" för att få det att fungera då tabellerna är kopplade till varandra via foreign keys.
+            effectedRows += db.Execute("DELETE " +
+                                       "FROM Rental_Orders " +
+                                       $"WHERE customer_id = {id}");
+
+            effectedRows += db.Execute("DELETE " +
+                                       "FROM Customers " +
+                                       $"WHERE customer_id = {id}");
+
+            return effectedRows;
+        }
     }
 }

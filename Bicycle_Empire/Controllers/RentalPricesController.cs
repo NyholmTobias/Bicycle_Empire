@@ -1,12 +1,9 @@
 ﻿using Dapper;
-using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Bicycle_Empire
 {
@@ -41,9 +38,13 @@ namespace Bicycle_Empire
                     $"WHERE price_category = {id}");
         }
 
-        //public string Delete(int id)
-        //{
+        public int Delete(int id)
+        {
+            var effectedRows = db.Execute("DELETE " +
+                                          "FROM Rental_Prices " +
+                                          $"WHERE price_category = {id}");
 
-        //}
+            return effectedRows;
+        }
     }
 }

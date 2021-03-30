@@ -1,12 +1,9 @@
 ﻿using Dapper;
-using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Bicycle_Empire
 {
@@ -64,9 +61,12 @@ namespace Bicycle_Empire
             }
         }
 
-        //public string Delete(int id)
-        //{
+        public int Delete(int id)
+        {
+            var effectedRows = db.Execute("DELETE FROM Invoice_Info" +
+                                          $"WHERE invoice_number = {id}");
 
-        //}
+            return effectedRows;
+        }
     }
 }

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Bicycle_Empire
 {
@@ -13,12 +11,12 @@ namespace Bicycle_Empire
             while (true)
             {
                 Console.Clear();
-                Console.WriteLine("Welcome to Bicycle Empires database! \nWhat do you want to do?\n");
-                Console.WriteLine("1. See all the info in a table.\n2. Search for information by entering a specific value.\n3. Add to a table.\n4. Update information.\n6. Exit\n");
+                Console.WriteLine("--|| Bicycle Empire Database ||-- \nWhat do you want to do?\n");
+                Console.WriteLine("1. See all the data in a table.\n2. Search for data by entering a specific value.\n3. Add a new instance to a table.\n4. Update data.\n5. Delete data.\n6. Exit\n");
 
                 try
                 {
-                    Menu.HandleMainMenuInput(int.Parse(Console.ReadLine()));
+                    HandleMainMenuInput(int.Parse(Console.ReadLine()));
                 }
                 catch
                 {
@@ -35,16 +33,19 @@ namespace Bicycle_Empire
             switch(input)
             {
                 case 1:
-                    Menu.PrintGetAllMenu();
+                    PrintGetAllMenu();
                     break;
                 case 2:
-                    Menu.PrintGetSpecificMenu();
+                    PrintGetSpecificMenu();
                     break;
                 case 3:
-                    Menu.PrintAddMenu();
+                    PrintAddMenu();
                     break;
                 case 4:
-                    Menu.PrintUpdateMenu();
+                    PrintUpdateMenu();
+                    break;
+                case 5:
+                    PrintDeleteMenu();
                     break;
                 case 6:
                     Environment.Exit(0);
@@ -62,11 +63,11 @@ namespace Bicycle_Empire
             Console.Clear();
             while (true)
             {
-                Console.WriteLine("Pick a category to get all the information from.\n1.Customers.\n2.Bicycles.\n3.Orders.\n4.Prices.\n5.Invoices.");
+                Console.WriteLine("Pick a category to retrieve all data from it.\n1.Customers.\n2.Bicycles.\n3.Orders.\n4.Prices.\n5.Invoices.");
 
                 try
                 {
-                    Menu.HandleGetAllMenuInput(int.Parse(Console.ReadLine()));
+                    HandleGetAllMenuInput(int.Parse(Console.ReadLine()));
                     break;
                 }
                 catch
@@ -155,10 +156,10 @@ namespace Bicycle_Empire
             Console.Clear();
             while (true)
             {
-                Console.WriteLine("Pick a table below to search in.\n1.Customers.\n2.Bicycles.\n3.Orders.\n4.Prices.\n5.Invoices.");
+                Console.WriteLine("What data do you want to search for?.\n1.Customer.\n2.Bicycle.\n3.Order.\n4.Price.\n5.Invoice.");
                 try
                 {
-                    Menu.HandleGetSpecificMenuInput(int.Parse(Console.ReadLine()));
+                    HandleGetSpecificMenuInput(int.Parse(Console.ReadLine()));
                     break;
                 }
                 catch
@@ -434,10 +435,10 @@ namespace Bicycle_Empire
             Console.Clear();
             while (true)
             {
-                Console.WriteLine("What table do you want to add to?\n1.Customers.\n2.Bicycles.\n3.Orders.\n4.Prices.\n5.Invoices.");
+                Console.WriteLine("What data do you want to add?\n1.Customer.\n2.Bicycle.\n3.Order.\n4.Price.\n5.Invoice.");
                 try
                 {
-                    Menu.HandleAddMenuInput(int.Parse(Console.ReadLine()));
+                    HandleAddMenuInput(int.Parse(Console.ReadLine()));
                     break;
                 }
                 catch
@@ -579,10 +580,10 @@ namespace Bicycle_Empire
             Console.Clear();
             while (true)
             {
-                Console.WriteLine("What table do you want to update?\n1.Customers.\n2.Bicycles.\n3.Orders.\n4.Prices.\n5.Invoices.");
+                Console.WriteLine("What data do you want to update?\n1.Customer.\n2.Bicycle.\n3.Order.\n4.Price.\n5.Invoice.");
                 try
                 {
-                    Menu.HandleUpdateMenuInput(int.Parse(Console.ReadLine()));
+                    HandleUpdateMenuInput(int.Parse(Console.ReadLine()));
                     break;
                 }
                 catch
@@ -847,14 +848,235 @@ namespace Bicycle_Empire
             }
         }
 
-        //internal static void PrintDeleteMenu()
-        //{
+        internal static void PrintDeleteMenu()
+        {
+            Console.Clear();
+            while (true)
+            {
+                Console.WriteLine("What data do you want to delete?\n1.Customer.\n2.Bicycle.\n3.Order.\n4.Price.\n5.Invoice.");
+                try
+                {
+                    HandleDeleteMenuInput(int.Parse(Console.ReadLine()));
+                    break;
+                }
+                catch
+                {
+                    Console.WriteLine(" ");
+                    Console.WriteLine("Wrong input, press any key and try again!");
+                    Console.ReadKey();
+                    Console.Clear();
+                }
+            }
+        }
 
-        //}
+        internal static void HandleDeleteMenuInput(int input)
+        {
+            while (true)
+            {
+                try
+                {
+                    int id;
+                    string confirmation;
 
-        //internal static void HandleDeleteMenuInput(int input)
-        //{
+                    switch (input)
+                    {
+                        case 1:
+                            CustomersController customerCont = new CustomersController();
+                            Console.Clear();
 
-        //}
+                            Console.Write("Enter the customer number that you want to delete: ");
+                            id = int.Parse(Console.ReadLine());
+                            var customer = customerCont.GetByString("customer_id", $"{id.ToString()}").Single();
+                            Console.WriteLine($"ID: {customer.customer_id} \nFirst name: {customer.first_name} \nLast name: {customer.last_name} \nPhone number: +46{customer.phone_number}\n");
+
+                            // Side note. I ett verkligt program skulle det vara mycket fler kriterier som ska uppfyllas för att kunna ta bort en kund eftersom det finns fakturor och liknande kopplat till den.  
+                            Console.WriteLine("Are you sure that you want to delete this customer and all the data associated with it? Enter y/n.");
+                            confirmation = Console.ReadLine();
+
+                            if (confirmation.ToLower() == "y")
+                            {
+                                Console.Clear();
+                                Console.WriteLine($"{customerCont.Delete(id)} row(s) has been deleted.");
+                                Console.ReadKey();
+                            }
+                            else if (confirmation.ToLower() == "n")
+                            {
+                                Console.WriteLine("\nYou will be sent back to the main menu. Press any key.");
+                                Console.ReadKey();
+                                PrintMainMenu();
+                            }
+                            else
+                            {
+                                Console.WriteLine(" ");
+                                Console.WriteLine("Wrong input, press any key and try again!");
+                                Console.ReadKey();
+                                Console.Clear();
+                            }
+                            
+                            break;
+                        case 2:
+                            BicyclesController bicycleCont = new BicyclesController();
+                            Console.Clear();
+
+                            Console.Write("Enter the bicycle id that you want to delete: ");
+                            id = int.Parse(Console.ReadLine());
+                            var bike = bicycleCont.GetByString("bicycle_id", $"{id.ToString()}").Single();
+                            Console.WriteLine($"ID: {bike.bicycle_id} \nModel: {bike.model} \nPrice category: {bike.price_category} \nRental status: {bike.rental_status}\n");
+
+                            Console.WriteLine("Bicycles cant be deleted but the status can be changed to ''unavailable''. Do you want to continue? Enter y/n.");
+                            confirmation = Console.ReadLine();
+
+                            if (confirmation.ToLower() == "y")
+                            {
+                                Console.Clear();
+                                bicycleCont.Update(id, "rental_status", "Unavailable");
+                                Console.WriteLine($"The bicycle with id {id} has changed status to unavailable.");
+                                Console.ReadKey();
+                            }
+                            else if (confirmation.ToLower() == "n")
+                            {
+                                Console.WriteLine("\nYou will be sent back to the main menu. Press any key.");
+                                Console.ReadKey();
+                                PrintMainMenu();
+                            }
+                            else
+                            {
+                                Console.WriteLine(" ");
+                                Console.WriteLine("Wrong input, press any key and try again!");
+                                Console.ReadKey();
+                                Console.Clear();
+                            }
+
+                            break;
+                        case 3:
+                            RentalOrdersController orderCont = new RentalOrdersController();
+                            Console.Clear();
+
+                            Console.Write("Enter the order number for the order that you want to delete: ");
+                            id = int.Parse(Console.ReadLine());
+                            var order = orderCont.GetByString("order_number", $"{id.ToString()}").Single();
+                            Console.WriteLine($"Order number: {order.order_number} \nCustomer id: {order.customer_id}\nBicycle id: {order.bicycle_id} \nOrder date: {order.order_date} \nReturn date: {order.return_date}\nRental hours: {order.rent_time}\nRental days: {order.days_rented}\n");
+
+                            // Ja, det kan vara flera fakturor kopplade till samma order. 
+                            Console.WriteLine("Are you sure that you want to delete this order and all the invoices associated with it? Enter y/n.");
+                            confirmation = Console.ReadLine();
+
+                            if (confirmation.ToLower() == "y")
+                            {
+                                Console.Clear();
+                                Console.WriteLine($"{orderCont.Delete(id)} row(s) has been deleted.");
+                                Console.ReadKey();
+                            }
+                            else if (confirmation.ToLower() == "n")
+                            {
+                                Console.WriteLine("\nYou will be sent back to the main menu. Press any key.");
+                                Console.ReadKey();
+                                PrintMainMenu();
+                            }
+                            else
+                            {
+                                Console.WriteLine(" ");
+                                Console.WriteLine("Wrong input, press any key and try again!");
+                                Console.ReadKey();
+                                Console.Clear();
+                            }
+
+                            break;
+                        case 4:
+                            RentalPricesController priceCont = new RentalPricesController();
+                            BicyclesController bicycleCont1 = new BicyclesController();
+                            Console.Clear();
+
+                            Console.Write("Enter the price category that you want to delete: ");
+                            id = int.Parse(Console.ReadLine());
+                            var priceCat = priceCont.GetByString("price_category", $"{id.ToString()}").Single();
+                            Console.WriteLine($"Price category: { priceCat.price_category} \nHour price: { priceCat.hour_price}\nDay price: { priceCat.day_price} \n");
+
+                            Console.WriteLine("Are you sure that you want to delete this price category? Enter y/n.");
+                            confirmation = Console.ReadLine();
+
+                            // Price category kan inte tas bort om det finns på en cykel, därför måste användaren ändra på de cyklar som innehåller den valda kategorin. 
+                            if (confirmation.ToLower() == "y")
+                            {
+                                Console.Clear();
+                                if (bicycleCont1.GetByString("price_category", id.ToString()).Count >= 1)
+                                {
+                                    Console.Write($"You need to change the price category on below bicycles before you can delete price category {id}.");
+                                    List<Bicycles> bicyclesWithChosenPriceCategory = new List<Bicycles>();
+                                    foreach(var b in bicyclesWithChosenPriceCategory)
+                                    {
+                                        Console.WriteLine($"ID: {b.bicycle_id} \nModel: {b.model} \nPrice category: {b.price_category} \nRental status: {b.rental_status}\n");
+                                    }
+                                    Console.WriteLine("\nYou will be sent back to the main menu. Press any key.");
+                                    Console.ReadKey();
+                                    PrintMainMenu();
+                                }
+                                else
+                                {
+                                    priceCont.Delete(id);
+                                    Console.WriteLine($"Price category {id} has been deleted successfully.");
+                                    Console.ReadKey();
+                                }
+                            }
+                            else if (confirmation.ToLower() == "n")
+                            {
+                                Console.WriteLine("\nYou will be sent back to the main menu. Press any key.");
+                                Console.ReadKey();
+                                PrintMainMenu();
+                            }
+                            else
+                            {
+                                Console.WriteLine(" ");
+                                Console.WriteLine("Wrong input, press any key and try again!");
+                                Console.ReadKey();
+                                Console.Clear();
+                            }
+
+                            break;
+                        case 5:
+                            InvoiceInfoController invoiceCont = new InvoiceInfoController();
+                            Console.Clear();
+
+                            Console.Write("Enter the invoice number of the invoice that you want to delete: ");
+                            id = int.Parse(Console.ReadLine());
+                            var i = invoiceCont.GetByString("invoice_number", $"{id.ToString()}").Single();
+                            Console.WriteLine($"Invoice number: {i.invoice_number} \nCustomer id: {i.customer_id}\nOrder number: {i.order_number} \nName: {i.first_name} {i.last_name} \nAdress: {i.invoice_adress} \nC/O adress: {i.co_adress} \nPostal number: {i.postal_number} {i.city}\n");
+
+                            Console.WriteLine("Are you sure that you want to delete this invoice? Enter y/n.");
+                            confirmation = Console.ReadLine();
+
+                            if (confirmation.ToLower() == "y")
+                            {
+                                Console.Clear();
+                                invoiceCont.Delete(id);
+                                Console.WriteLine($"Invoice (invoice number {id}) has been deleted successfully.");
+                                Console.ReadKey();
+                            }
+                            else if (confirmation.ToLower() == "n")
+                            {
+                                Console.WriteLine("\nYou will be sent back to the main menu. Press any key.");
+                                Console.ReadKey();
+                                PrintMainMenu();
+                            }
+                            else
+                            {
+                                Console.WriteLine(" ");
+                                Console.WriteLine("Wrong input, press any key and try again!");
+                                Console.ReadKey();
+                                Console.Clear();
+                            }
+                            break;
+                    }
+                    break;
+                }
+                catch
+                {
+                    Console.WriteLine(" ");
+                    Console.WriteLine("Wrong input, press any key and try again!");
+                    Console.ReadKey();
+                    Console.Clear();
+                }
+            }
+        }
     }
 }
