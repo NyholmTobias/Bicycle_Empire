@@ -89,6 +89,7 @@
     <Compile Include="Models\Rental_Prices.cs" />
     <Compile Include="Controllers\RentalOrdersController.cs" />
     <Compile Include="Controllers\RentalPricesController.cs" />
+    <Compile Include="HelpClasses\Seeder.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Configs\App.config" />
