@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Bicycle_Empire
 {
-    class BicyclesController
+    class BicyclesController : IController<Bicycles>
     {
         private IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnectionString"].ConnectionString);
 
@@ -59,6 +59,14 @@ namespace Bicycle_Empire
                             $"SET {category} = '{input}' " +
                             $"WHERE bicycle_id = {id}");
             }
+        }
+
+        public int Delete(int id)
+        {
+            // Denna metoden används aldrig men var tvungen att skapa den pga interfacet. 
+            Menu.PrintMainMenu();
+            int a = 0;
+            return a;
         }
 
     }

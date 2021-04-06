@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Bicycle_Empire
 {
-    class RentalPricesController
+    class RentalPricesController : IController<Rental_Prices>
     {
         private IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnectionString"].ConnectionString);
 

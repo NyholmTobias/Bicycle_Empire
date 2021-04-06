@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Bicycle_Empire
 {
-    class InvoiceInfoController
+    class InvoiceInfoController : IController<Invoice_Info>
     {
         private IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnectionString"].ConnectionString);
 

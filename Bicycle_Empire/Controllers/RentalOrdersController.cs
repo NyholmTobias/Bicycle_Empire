@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -7,7 +8,7 @@ using System.Linq;
 
 namespace Bicycle_Empire
 {
-    class RentalOrdersController
+    class RentalOrdersController : IController<Rental_Orders>
     {
         private IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnectionString"].ConnectionString);
 
@@ -34,17 +35,23 @@ namespace Bicycle_Empire
 
         public int Add(Rental_Orders o)
         {
-            // order_date sätts som dagens datum och tid automatiskt, därför måste return_date ha ett värde som är större än order_date.
-            var affectedRows = db.Execute($"INSERT INTO Rental_Orders(customer_id, bicycle_id, return_date) VALUES (@customer_id, @bicycle_id, @return_date)", o);
-
-            return affectedRows;
+            try
+            {
+                // order_date sätts som dagens datum och tid automatiskt, därför måste return_date ha ett värde som är större än order_date.
+                var affectedRows = db.Execute($"INSERT INTO Rental_Orders(customer_id, bicycle_id, return_date) VALUES (@customer_id, @bicycle_id, @return_date)", o);
+                return affectedRows;
+            }
+            catch 
+            {
+                Console.WriteLine($"The return date needs to be later then the order date ({DateTimeOffset.Now}). No order has been added.");
+                Console.ReadKey();
+                var affectedRows = 0;
+                return affectedRows;
+            }
         }
 
         public void Update(int id, string category, string input)
         {
-            // OBS! kan inte uppdatera return_date eftersom det finns en CHECK på return_date i SQL som är felaktig. Man måste droppa den och lägga in följande kod: ALTER TABLE Rental_Orders
-            // ADD CHECK(return_date > order_date); Då fungerar det. 
-
             if (category == "customer_id" || category == "bicycle_id")
             {
                 db.Execute("UPDATE Rental_Orders " +

@@ -9,6 +9,7 @@
         // Valet "Real life example" är en kort simulation av hur ett verkligt företag hade kunnat använda sig av mjukvaran och databasen.
         static void Main(string[] args)
         {
+            Seeder.FillData();
             Menu.PrintMainMenu();
         }
     }

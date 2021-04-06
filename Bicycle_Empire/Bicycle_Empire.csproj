@@ -68,6 +68,7 @@
   <ItemGroup>
     <Compile Include="Controllers\BicyclesController.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
+    <Compile Include="Controllers\IController.cs" />
     <Compile Include="HelpClasses\Menu.cs" />
     <Compile Include="Controllers\InvoiceInfoController.cs" />
     <Compile Include="Models\Bicycles.cs" />

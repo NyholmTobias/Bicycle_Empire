@@ -693,8 +693,6 @@ namespace Bicycle_Empire
                             Console.ReadKey();
                             break;
                         case 3:
-                            // OBS! kan inte uppdatera return_date eftersom det finns en CHECK på return_date i SQL som är felaktig. Man måste droppa den och lägga in följande kod: ALTER TABLE Rental_Orders
-                            // ADD CHECK(return_date > order_date); Då fungerar det.
 
                             RentalOrdersController orderCont = new RentalOrdersController();
                             Console.Clear();

@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Bicycle_Empire
+﻿namespace Bicycle_Empire
 {
     static class Seeder
     {
         public static void FillData()
         {
+            //Skapa i detta flödet Customers -> Rental_Prices -> Bicycles -> Rental_Orders -> Invoice_Info
             CustomersController cController = new CustomersController();
             BicyclesController bController = new BicyclesController();
             InvoiceInfoController iController = new InvoiceInfoController();
@@ -24,6 +19,44 @@ namespace Bicycle_Empire
             {
                 cController.Add(new Customers { first_name = firstNames[i], last_name = lastNames[i], phone_number = phoneNumers[i] });
             }
+
+            double[] hourPrices = { 150, 160, 170, 180, 190, 200, 210, 220, 230, 240 };
+            double[] dayPrices = { 2000, 2200, 2300, 2400, 2500, 2600, 2700, 2800, 2900, 3000 };
+
+            for (int i = 0; i < 10; i++)
+            {
+                pController.Add(new Rental_Prices { hour_price = hourPrices[i], day_price = dayPrices[i] });
+            }
+
+            string[] status = { "Vacant", "Unavailable", "Rented", "Vacant", "Vacant", "Vacant", "Vacant", "Rented", "Rented", "Rented" };
+            string[] models = { "Trek", "Colnago", "Raleigh", "BMC", "Cervelo", "Colnago", "Trek", "BMX", "BMC", "Cersent" };
+            int[] priceCategories = { 1, 2, 3, 4, 5, 6, 7, 3, 5, 1 };
+
+            for (int i = 0; i < 10; i++)
+            {
+                bController.Add(new Bicycles { model = models[i], price_category = priceCategories[i], rental_status = status[i] });
+            }
+
+            string[] returnDates = { "2021-04-26 07:00:00", "2021-04-26 07:00:00", "2021-04-26 07:00:00", "2021-04-26 07:00:00", "2021-04-26 07:00:00", "2021-04-26 07:00:00", "2021-04-26 07:00:00", "2021-04-26 07:00:00", "2021-04-26 07:00:00", "2021-04-26 07:00:00" };
+            int[] customerID = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+            int[] bicycleID = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+
+            for(int i = 0; i < 10; i++)
+            {
+                oController.Add(new Rental_Orders { return_date = returnDates[i], customer_id = customerID[i], bicycle_id = bicycleID[i] });
+            }
+
+            string[] invoiceAdresses = { "Lärdomsgatan 9", "Envägen 5", "Hobbit road 5", "Wallaby way 42", "Sjuntorpsgatan 7", "Hagen 82", "Dammhagen 228", "Inlandsvägen 2", "Klammergatan 8", "Vägen 1" };
+            string[] coAdresses = { "LGH 1011", "Baksidan", "You shall not pass", "P. Sherman", "", "", "Lugnet", "", "Klammen", "Gatan" };
+            int[] postalNumbers = { 41753, 46375, 44231, 47116, 41671, 44852, 48231, 47593, 44752, 42351 };
+            string[] cities = { "Göteborg", "Enköping", "Fylke", "Sydney", "Sjuntorp", "Haga town", "Hjärtum", "Västerås", "Klammerville", "Uppfarten" };
+            int[] orderNumbers = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+
+            for(int i = 0; i < 10; i++)
+            {
+                iController.Add(new Invoice_Info { invoice_adress = invoiceAdresses[i], co_adress = coAdresses[i], postal_number = postalNumbers[i], city = cities[i], customer_id = customerID[i], order_number = orderNumbers[i], first_name = firstNames[i], last_name = lastNames[i] });
+            }
+
         }
 
     }

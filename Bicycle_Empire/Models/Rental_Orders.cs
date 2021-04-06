@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Bicycle_Empire
+﻿namespace Bicycle_Empire
 {
     public class Rental_Orders
     {
