@@ -46,7 +46,7 @@ namespace Bicycle_Empire
         }
 
         public void Update(int id, string category, string input)
-        { 
+        {
             if (category == "customer_id" || category == "order_number" || category == "postal_number")
             {
                 db.Execute("UPDATE Rental_Orders " +

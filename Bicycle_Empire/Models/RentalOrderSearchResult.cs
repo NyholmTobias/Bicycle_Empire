@@ -12,6 +12,6 @@
         public int price_category { get; set; }
         public string rental_status { get; set; }
         public int invoice_number { get; set; }
-        public double total_price { get; set; } 
+        public double total_price { get; set; }
     }
 }

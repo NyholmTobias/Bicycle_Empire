@@ -15,7 +15,7 @@
             string[] lastNames = { "Nyholm", "Stenström", "Baggins", "Karlsson", "Kamo", "Niklasson", "Johansson", "Svensson", "Enberg", "Svensson" };
             int[] phoneNumers = { 0768645167, 0763669581, 0758981235, 0752125886, 0735669852, 0752778412, 0769721001, 0705723698, 0768645112, 0758996521 };
 
-            for(int i = 0; i < 10; i++)
+            for (int i = 0; i < 10; i++)
             {
                 cController.Add(new Customers { first_name = firstNames[i], last_name = lastNames[i], phone_number = phoneNumers[i] });
             }
@@ -41,7 +41,7 @@
             int[] customerID = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
             int[] bicycleID = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
 
-            for(int i = 0; i < 10; i++)
+            for (int i = 0; i < 10; i++)
             {
                 oController.Add(new Rental_Orders { return_date = returnDates[i], customer_id = customerID[i], bicycle_id = bicycleID[i] });
             }
@@ -52,7 +52,7 @@
             string[] cities = { "Göteborg", "Enköping", "Fylke", "Sydney", "Sjuntorp", "Haga town", "Hjärtum", "Västerås", "Klammerville", "Uppfarten" };
             int[] orderNumbers = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
 
-            for(int i = 0; i < 10; i++)
+            for (int i = 0; i < 10; i++)
             {
                 iController.Add(new Invoice_Info { invoice_adress = invoiceAdresses[i], co_adress = coAdresses[i], postal_number = postalNumbers[i], city = cities[i], customer_id = customerID[i], order_number = orderNumbers[i], first_name = firstNames[i], last_name = lastNames[i] });
             }

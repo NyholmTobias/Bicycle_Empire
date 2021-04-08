@@ -15,7 +15,7 @@ namespace Bicycle_Empire
         {
             //Returnerar en lista med alla objekt från en tabell.
             List<Customers> customers = db.Query<Customers>("SELECT * FROM Customers").ToList();
-            
+
             return customers;
         }
 
@@ -56,7 +56,7 @@ namespace Bicycle_Empire
                         $"SET {category} = {int.Parse(input)} " +
                         $"WHERE bicycle_id = {id}");
             }
-            
+
             db.Execute("UPDATE Customers " +
                         $"SET {category} = '{input}' " +
                         $"WHERE customer_id = {id}");

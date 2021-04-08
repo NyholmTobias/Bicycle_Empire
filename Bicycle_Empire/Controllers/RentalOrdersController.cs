@@ -41,7 +41,7 @@ namespace Bicycle_Empire
                 var affectedRows = db.Execute($"INSERT INTO Rental_Orders(customer_id, bicycle_id, return_date) VALUES (@customer_id, @bicycle_id, @return_date)", o);
                 return affectedRows;
             }
-            catch 
+            catch
             {
                 Console.WriteLine($"The return date needs to be later then the order date ({DateTimeOffset.Now}). No order has been added.");
                 Console.ReadKey();

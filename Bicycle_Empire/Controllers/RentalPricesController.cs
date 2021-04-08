@@ -21,7 +21,7 @@ namespace Bicycle_Empire
         public List<Rental_Prices> GetByString(string category, string input)
         {
             List<Rental_Prices> rentalPrices = db.Query<Rental_Prices>($"SELECT * FROM Rental_Prices WHERE {category} LIKE '%{int.Parse(input)}%' ORDER BY {category}").ToList();
-            return rentalPrices;   
+            return rentalPrices;
         }
 
         public int Add(Rental_Prices p)

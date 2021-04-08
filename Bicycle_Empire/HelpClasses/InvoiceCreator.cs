@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Linq;
-using System.IO;
 using System.Diagnostics;
+using System.IO;
+using System.Linq;
 
 namespace Bicycle_Empire
 {
@@ -33,7 +33,7 @@ namespace Bicycle_Empire
 
         internal static void SeeInvoice(string filePath)
         {
-            
+
             Process.Start(filePath);
 
         }

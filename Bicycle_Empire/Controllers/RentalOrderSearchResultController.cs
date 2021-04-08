@@ -12,8 +12,8 @@ namespace Bicycle_Empire
         private IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnectionString"].ConnectionString);
         public List<RentalOrderSearchResult> GetReleventInfo(string category, string input)
         {
-            List<RentalOrderSearchResult> orders = db.Query<RentalOrderSearchResult>($"SELECT Rental_Orders.order_number, "+
-                                                                                    $"Rental_Orders.customer_id, "+
+            List<RentalOrderSearchResult> orders = db.Query<RentalOrderSearchResult>($"SELECT Rental_Orders.order_number, " +
+                                                                                    $"Rental_Orders.customer_id, " +
                                                                                     $"Rental_Orders.order_date, " +
                                                                                     $"Rental_Orders.return_date, " +
                                                                                     $"Rental_Orders.bicycle_id, " +

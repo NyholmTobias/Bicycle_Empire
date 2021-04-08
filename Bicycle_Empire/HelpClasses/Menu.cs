@@ -30,7 +30,7 @@ namespace Bicycle_Empire
 
         internal static void HandleMainMenuInput(int input)
         {
-            switch(input)
+            switch (input)
             {
                 case 1:
                     PrintGetAllMenu();
@@ -278,7 +278,7 @@ namespace Bicycle_Empire
 
                             if (category == 1)
                             {
-                                sCategory = "order_number"; 
+                                sCategory = "order_number";
                             }
                             else if (category == 2)
                             {
@@ -423,7 +423,7 @@ namespace Bicycle_Empire
                     }
                     break;
                 }
-                catch 
+                catch
                 {
                     Console.WriteLine(" ");
                     Console.WriteLine("Wrong input, press any key and try again!");
@@ -455,7 +455,7 @@ namespace Bicycle_Empire
         }
 
         internal static void HandleAddMenuInput(int input)
-        {    
+        {
             while (true)
             {
                 try
@@ -560,7 +560,7 @@ namespace Bicycle_Empire
                             var postalNumber = int.Parse(Console.ReadLine());
                             Console.Write("City: ");
                             var city = Console.ReadLine();
-                            
+
                             Console.Clear();
 
                             Console.WriteLine($"{iController.Add(new Invoice_Info { customer_id = customerId, order_number = orderNumber, first_name = firstName, last_name = lastName, invoice_adress = invoiceAdress, co_adress = coAdress, postal_number = postalNumber, city = city })} new invoice has been added");
@@ -650,7 +650,7 @@ namespace Bicycle_Empire
                             Console.WriteLine("Result:\n");
                             customer = customerCont.GetByString("customer_id", $"{id.ToString()}").Single();
                             Console.WriteLine($"ID: {customer.customer_id} \nFirst name: {customer.first_name} \nLast name: {customer.last_name} \nPhone number: +46{customer.phone_number}\n");
-                            
+
                             Console.ReadKey();
                             break;
                         case 2:
@@ -691,7 +691,7 @@ namespace Bicycle_Empire
                             Console.WriteLine("Result:\n");
                             bike = bicycleCont.GetByString("bicycle_id", $"{id.ToString()}").Single();
                             Console.WriteLine($"ID: {bike.bicycle_id} \nModel: {bike.model} \nPrice category: {bike.price_category} \nRental status: {bike.rental_status}\n");
-                            
+
 
                             Console.ReadKey();
                             break;
@@ -734,7 +734,7 @@ namespace Bicycle_Empire
                             Console.WriteLine("Result:\n");
                             order = orderCont.GetByString("order_number", $"{id.ToString()}").Single();
                             Console.WriteLine($"Order number: {order.order_number} \nCustomer id: {order.customer_id}\nBicycle id: {order.bicycle_id} \nOrder date: {order.order_date} \nReturn date: {order.return_date}\nRental hours: {order.rent_time}\nRental days: {order.days_rented}\n");
-                           
+
 
                             Console.ReadKey();
                             break;
@@ -913,7 +913,7 @@ namespace Bicycle_Empire
                                 Console.ReadKey();
                                 Console.Clear();
                             }
-                            
+
                             break;
                         case 2:
                             BicyclesController bicycleCont = new BicyclesController();
@@ -1004,7 +1004,7 @@ namespace Bicycle_Empire
                                 {
                                     Console.Write($"You need to change the price category on below bicycles before you can delete price category {id}.");
                                     List<Bicycles> bicyclesWithChosenPriceCategory = new List<Bicycles>();
-                                    foreach(var b in bicyclesWithChosenPriceCategory)
+                                    foreach (var b in bicyclesWithChosenPriceCategory)
                                     {
                                         Console.WriteLine($"ID: {b.bicycle_id} \nModel: {b.model} \nPrice category: {b.price_category} \nRental status: {b.rental_status}\n");
                                     }
@@ -1115,38 +1115,38 @@ namespace Bicycle_Empire
                     switch (input)
                     {
                         case 1:
-                        Console.WriteLine("--|| Customer ||--\n1. Search.\n2. New.\n3. Go back.");
-                        i = int.Parse(Console.ReadLine());
+                            Console.WriteLine("--|| Customer ||--\n1. Search.\n2. New.\n3. Go back.");
+                            i = int.Parse(Console.ReadLine());
 
-                        switch (i)
-                        {
-                            case 1:
-                                Console.Clear();
-                                Console.WriteLine("--|| Search for customer ||--\nPick category.\n1. Customer id\n2. First name.\n3. Last name.\n4. Phone number.");
-                                cCategory = int.Parse(Console.ReadLine());
-                                Console.WriteLine("\nEnter search value.");
-                                cValue = Console.ReadLine();
-                                
-                                //Här insåg jag att det hade varit väldigt mycket lättare att använda sig av enmus från början :)
-                                CustomerSearchResultController cSRCont = new CustomerSearchResultController();
-                                List<CustomerSearchResult> customerSearchResult = cSRCont.GetReleventInfo(Convert.ToString((CustomerCategory)cCategory), cValue);
+                            switch (i)
+                            {
+                                case 1:
+                                    Console.Clear();
+                                    Console.WriteLine("--|| Search for customer ||--\nPick category.\n1. Customer id\n2. First name.\n3. Last name.\n4. Phone number.");
+                                    cCategory = int.Parse(Console.ReadLine());
+                                    Console.WriteLine("\nEnter search value.");
+                                    cValue = Console.ReadLine();
 
-                                Console.Clear();
-                                Console.WriteLine("--|| Search result ||--");
-                                foreach (var customer in customerSearchResult)
-                                {
-                                    Console.WriteLine($"ID = {customer.customer_id}\n" +
-                                        $"First name = {customer.first_name}\n" +
-                                        $"Last name = {customer.last_name}\n" +
-                                        $"Phone number = +46{customer.phone_number}\n" +
-                                        $"Number of orders = {customer.order_number}\n" +
-                                        $"Number of invoices = {customer.customer_id}\n" +
-                                        $"---------------------------------------------------------------------------------------------------------------\n");
-                                }
-                                Console.ReadKey();
+                                    //Här insåg jag att det hade varit väldigt mycket lättare att använda sig av enmus från början :)
+                                    CustomerSearchResultController cSRCont = new CustomerSearchResultController();
+                                    List<CustomerSearchResult> customerSearchResult = cSRCont.GetReleventInfo(Convert.ToString((CustomerCategory)cCategory), cValue);
 
-                                break;
-                            case 2:
+                                    Console.Clear();
+                                    Console.WriteLine("--|| Search result ||--");
+                                    foreach (var customer in customerSearchResult)
+                                    {
+                                        Console.WriteLine($"ID = {customer.customer_id}\n" +
+                                            $"First name = {customer.first_name}\n" +
+                                            $"Last name = {customer.last_name}\n" +
+                                            $"Phone number = +46{customer.phone_number}\n" +
+                                            $"Number of orders = {customer.order_number}\n" +
+                                            $"Number of invoices = {customer.customer_id}\n" +
+                                            $"---------------------------------------------------------------------------------------------------------------\n");
+                                    }
+                                    Console.ReadKey();
+
+                                    break;
+                                case 2:
                                     Console.Clear();
                                     CustomersController cCont = new CustomersController();
 
@@ -1167,8 +1167,8 @@ namespace Bicycle_Empire
                                 case 3:
                                     PrintRealTimeMenu();
                                     break;
-                        }
-                        break;
+                            }
+                            break;
 
                         case 2:
                             Console.WriteLine("--|| Order ||--\n1. New.\n2. Update.\n3. Bicycle returned\n4. Search\n5. Go back.");
@@ -1199,7 +1199,7 @@ namespace Bicycle_Empire
                                         bCont.Update(order.bicycle_id, "rental_status", "Rented");
 
                                         Console.Write("Do you want to add an invoice adress to that order? y/n: ");
-                                        
+
                                         var yORn = Console.ReadLine();
                                         switch (yORn.ToLower())
                                         {
@@ -1226,10 +1226,11 @@ namespace Bicycle_Empire
                                                     customer_id = order.customer_id,
                                                     first_name = cCont.GetByString("customer_id", Convert.ToString(order.customer_id)).FirstOrDefault().first_name,
                                                     last_name = cCont.GetByString("customer_id", Convert.ToString(order.customer_id)).FirstOrDefault().last_name,
-                                                    order_number = order.order_number, 
-                                                    invoice_adress = ia, 
-                                                    co_adress = co, 
-                                                    postal_number = pn, city = city 
+                                                    order_number = order.order_number,
+                                                    invoice_adress = ia,
+                                                    co_adress = co,
+                                                    postal_number = pn,
+                                                    city = city
                                                 };
 
                                                 Console.WriteLine($"{iCont.Add(invoice)} new invoice has been added.");
@@ -1267,7 +1268,7 @@ namespace Bicycle_Empire
                                         var oValue = Console.ReadLine();
 
                                         RentalOrdersController oContr = new RentalOrdersController();
-                                        oContr.Update(orderID, Convert.ToString((RentalOrderCategory)oCategory+1), oValue);
+                                        oContr.Update(orderID, Convert.ToString((RentalOrderCategory)oCategory + 1), oValue);
 
                                         Console.WriteLine($"Order {orderID} has been updated.");
                                         Console.ReadKey();
@@ -1320,7 +1321,7 @@ namespace Bicycle_Empire
                                                 $"Status: {o.rental_status}\n" +
                                                 $"Price category: {o.price_category}\n" +
                                                 $"Invoice: {o.invoice_number}\n" +
-                                                $"Total price: {o.total_price}\n"+
+                                                $"Total price: {o.total_price}\n" +
                                                 $"---------------------------------------------------------------------------------------------------------------\n");
                                         }
                                         Console.ReadKey();
@@ -1346,7 +1347,7 @@ namespace Bicycle_Empire
 
                                         List<Rental_Prices> prices = pCont.GetAll();
 
-                                        foreach(Rental_Prices p in prices)
+                                        foreach (Rental_Prices p in prices)
                                         {
                                             Console.WriteLine($"Price category: {p.price_category}\n" +
                                                 $"Hour price: {p.hour_price}\n" +
@@ -1359,14 +1360,14 @@ namespace Bicycle_Empire
                                         break;
                                     case 2:
                                         Console.WriteLine("--|| Add Price Category ||--");
-                                        
+
                                         Console.Write("Hour price: ");
                                         double hp = double.Parse(Console.ReadLine());
 
                                         Console.Write("Day price: ");
                                         double dp = double.Parse(Console.ReadLine());
 
-                                        Rental_Prices price = new Rental_Prices{hour_price = hp, day_price = dp };
+                                        Rental_Prices price = new Rental_Prices { hour_price = hp, day_price = dp };
                                         RentalPricesController pContr = new RentalPricesController();
 
                                         Console.WriteLine($"{pContr.Add(price)} new price category has been added.");
@@ -1530,7 +1531,7 @@ namespace Bicycle_Empire
                             List<Rental_Orders> ordersToCheck = StatusUpdate.DailyBicycleStatusUpdate();
 
                             Console.WriteLine("Bicycle status check completed.\nOrders where the return date has passed: ");
-                            foreach(var oTC in ordersToCheck)
+                            foreach (var oTC in ordersToCheck)
                             {
                                 Console.Write($"{oTC.order_number}, ");
                             }
