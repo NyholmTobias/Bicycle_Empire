@@ -11,8 +11,8 @@
             RentalOrdersController oController = new RentalOrdersController();
             RentalPricesController pController = new RentalPricesController();
 
-            string[] firstNames = { "Tobias", "Oliver", "Marcus", "Ninmar", "Robin", "Erik", "Johan", "Anders", "Johanna", "Sofia" };
-            string[] lastNames = { "Nyholm", "Stenström", "Medina", "Karlsson", "Kamo", "Niklasson", "Johansson", "Svensson", "Enberg", "Svensson" };
+            string[] firstNames = { "Tobias", "Oliver", "Bilbo", "Ninmar", "Robin", "Erik", "Johan", "Anders", "Johanna", "Sofia" };
+            string[] lastNames = { "Nyholm", "Stenström", "Baggins", "Karlsson", "Kamo", "Niklasson", "Johansson", "Svensson", "Enberg", "Svensson" };
             int[] phoneNumers = { 0768645167, 0763669581, 0758981235, 0752125886, 0735669852, 0752778412, 0769721001, 0705723698, 0768645112, 0758996521 };
 
             for(int i = 0; i < 10; i++)
@@ -28,7 +28,7 @@
                 pController.Add(new Rental_Prices { hour_price = hourPrices[i], day_price = dayPrices[i] });
             }
 
-            string[] status = { "Vacant", "Unavailable", "Rented", "Vacant", "Vacant", "Vacant", "Vacant", "Rented", "Rented", "Rented" };
+            string[] status = { "Rented", "Rented", "Rented", "Rented", "Rented", "Rented", "Rented", "Rented", "Rented", "Rented" };
             string[] models = { "Trek", "Colnago", "Raleigh", "BMC", "Cervelo", "Colnago", "Trek", "BMX", "BMC", "Cersent" };
             int[] priceCategories = { 1, 2, 3, 4, 5, 6, 7, 3, 5, 1 };
 

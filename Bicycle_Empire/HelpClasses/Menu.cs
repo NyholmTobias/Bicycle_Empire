@@ -12,7 +12,7 @@ namespace Bicycle_Empire
             {
                 Console.Clear();
                 Console.WriteLine("--|| Bicycle Empire Database ||-- \nWhat do you want to do?\n");
-                Console.WriteLine("1. See all the data in a table.\n2. Search for data by entering a specific value.\n3. Add a new instance to a table.\n4. Update data.\n5. Delete data.\n6. Exit\n");
+                Console.WriteLine("1. See all the data in a table.\n2. Search for data by entering a specific value.\n3. Add a new instance to a table.\n4. Update data.\n5. Delete data.\n6. Exit\n\n\n\n7. Get real!");
 
                 try
                 {
@@ -49,6 +49,9 @@ namespace Bicycle_Empire
                     break;
                 case 6:
                     Environment.Exit(0);
+                    break;
+                case 7:
+                    PrintRealTimeMenu();
                     break;
                 default:
                     Console.WriteLine("Wrong input");
@@ -1074,6 +1077,482 @@ namespace Bicycle_Empire
                     Console.ReadKey();
                     Console.Clear();
                 }
+            }
+        }
+
+        internal static void PrintRealTimeMenu()
+        {
+            Console.Clear();
+            while (true)
+            {
+                Console.WriteLine("--|| Real life simulation ||--\n\n1. Customer.\n2. Order.\n3. Price table.\n4. Invoice.\n5. Run daily status update.\n6. Go back.");
+
+                try
+                {
+                    HandleGetRealInput(int.Parse(Console.ReadLine()));
+                    break;
+                }
+                catch
+                {
+                    Console.WriteLine(" ");
+                    Console.WriteLine("Wrong input, press any key and try again!");
+                    Console.ReadKey();
+                    Console.Clear();
+                }
+            }
+        }
+
+        internal static void HandleGetRealInput(int input)
+        {
+            while (true)
+            {
+                try
+                {
+                    int i, cCategory;
+                    string cValue;
+
+                    Console.Clear();
+                    switch (input)
+                    {
+                        case 1:
+                        Console.WriteLine("--|| Customer ||--\n1. Search.\n2. New.\n3. Go back.");
+                        i = int.Parse(Console.ReadLine());
+
+                        switch (i)
+                        {
+                            case 1:
+                                Console.Clear();
+                                Console.WriteLine("--|| Search for customer ||--\nPick category.\n1. Customer id\n2. First name.\n3. Last name.\n4. Phone number.");
+                                cCategory = int.Parse(Console.ReadLine());
+                                Console.WriteLine("\nEnter search value.");
+                                cValue = Console.ReadLine();
+                                
+                                //Här insåg jag att det hade varit väldigt mycket lättare att använda sig av enmus från början :)
+                                CustomerSearchResultController cSRCont = new CustomerSearchResultController();
+                                List<CustomerSearchResult> customerSearchResult = cSRCont.GetReleventInfo(Convert.ToString((CustomerCategory)cCategory), cValue);
+
+                                Console.Clear();
+                                Console.WriteLine("--|| Search result ||--");
+                                foreach (var customer in customerSearchResult)
+                                {
+                                    Console.WriteLine($"ID = {customer.customer_id}\n" +
+                                        $"First name = {customer.first_name}\n" +
+                                        $"Last name = {customer.last_name}\n" +
+                                        $"Phone number = +46{customer.phone_number}\n" +
+                                        $"Number of orders = {customer.order_number}\n" +
+                                        $"Number of invoices = {customer.customer_id}\n" +
+                                        $"---------------------------------------------------------------------------------------------------------------\n");
+                                }
+                                Console.ReadKey();
+
+                                break;
+                            case 2:
+                                    Console.Clear();
+                                    CustomersController cCont = new CustomersController();
+
+                                    Console.Write("--|| New customer ||--\n" +
+                                        "First name: ");
+                                    var fn = Console.ReadLine();
+
+                                    Console.Write("Last name: ");
+                                    var ln = Console.ReadLine();
+
+                                    Console.Write("Phone number: ");
+                                    var pn = Console.ReadLine();
+
+                                    Console.WriteLine($"{cCont.Add(new Customers { first_name = fn, last_name = ln, phone_number = int.Parse(pn) })} new customer has been added.");
+                                    Console.ReadKey();
+
+                                    break;
+                                case 3:
+                                    PrintRealTimeMenu();
+                                    break;
+                        }
+                        break;
+
+                        case 2:
+                            Console.WriteLine("--|| Order ||--\n1. New.\n2. Update.\n3. Bicycle returned\n4. Search\n5. Go back.");
+                            i = int.Parse(Console.ReadLine());
+                            while (true)
+                            {
+                                switch (i)
+                                {
+                                    case 1:
+
+                                        Console.Clear();
+                                        RentalOrdersController oCont = new RentalOrdersController();
+                                        BicyclesController bCont = new BicyclesController();
+
+                                        Console.Write("--|| New customer ||--\n" +
+                                            "Customer id: ");
+                                        var cID = Console.ReadLine();
+
+                                        Console.Write("Bicycle: ");
+                                        var bID = Console.ReadLine();
+
+                                        Console.Write("Return date fromat (yyyy-mm-dd hh:mm:ss): ");
+                                        var rd = Console.ReadLine();
+
+                                        Rental_Orders order = new Rental_Orders { customer_id = int.Parse(cID), bicycle_id = int.Parse(bID), return_date = rd };
+
+                                        Console.WriteLine($"{oCont.Add(order)} new order has been added.");
+                                        bCont.Update(order.bicycle_id, "rental_status", "Rented");
+
+                                        Console.Write("Do you want to add an invoice adress to that order? y/n: ");
+                                        
+                                        var yORn = Console.ReadLine();
+                                        switch (yORn.ToLower())
+                                        {
+                                            case "y":
+                                                Console.Clear();
+                                                InvoiceInfoController iCont = new InvoiceInfoController();
+                                                CustomersController cCont = new CustomersController();
+
+                                                Console.Write("--|| New invoice ||--\n" +
+                                                    "Invoice adress: ");
+                                                var ia = Console.ReadLine();
+
+                                                Console.Write("C/O adress: ");
+                                                var co = Console.ReadLine();
+
+                                                Console.Write("Postal number: ");
+                                                var pn = int.Parse(Console.ReadLine());
+
+                                                Console.Write("City: ");
+                                                var city = Console.ReadLine();
+
+                                                Invoice_Info invoice = new Invoice_Info
+                                                {
+                                                    customer_id = order.customer_id,
+                                                    first_name = cCont.GetByString("customer_id", Convert.ToString(order.customer_id)).FirstOrDefault().first_name,
+                                                    last_name = cCont.GetByString("customer_id", Convert.ToString(order.customer_id)).FirstOrDefault().last_name,
+                                                    order_number = order.order_number, 
+                                                    invoice_adress = ia, 
+                                                    co_adress = co, 
+                                                    postal_number = pn, city = city 
+                                                };
+
+                                                Console.WriteLine($"{iCont.Add(invoice)} new invoice has been added.");
+                                                Console.ReadKey();
+
+                                                break;
+
+                                            case "n":
+                                                Console.WriteLine("You will be sent back.");
+                                                Console.ReadKey();
+
+                                                break;
+
+                                            default:
+                                                Console.Write("Wrong key, enter y or n: ");
+                                                break;
+                                        }
+
+                                        break;
+
+                                    case 2:
+                                        Console.Clear();
+
+                                        Console.WriteLine("--|| Update order ||--\n" +
+                                                        "Enter the order id: ");
+                                        var orderID = int.Parse(Console.ReadLine());
+
+                                        Console.WriteLine("What do you want to update?\n" +
+                                                        "1. Return date.\n" +
+                                                        "2. Customer id.\n" +
+                                                        "3. Bicycle id.");
+                                        var oCategory = int.Parse(Console.ReadLine());
+
+                                        Console.Write("Enter the new value: ");
+                                        var oValue = Console.ReadLine();
+
+                                        RentalOrdersController oContr = new RentalOrdersController();
+                                        oContr.Update(orderID, Convert.ToString((RentalOrderCategory)oCategory+1), oValue);
+
+                                        Console.WriteLine($"Order {orderID} has been updated.");
+                                        Console.ReadKey();
+
+                                        break;
+
+                                    case 3:
+                                        Console.Clear();
+
+                                        BicyclesController bTRcont = new BicyclesController();
+
+                                        Console.Write("--|| Return bicycle ||--\nEnter order number: ");
+                                        var bicycleToReturn = int.Parse(Console.ReadLine());
+
+                                        bTRcont.Update(bicycleToReturn, "rental_status", "Vacant");
+
+                                        Console.WriteLine($"The bicycle on order {bicycleToReturn} has been successfully returned.");
+                                        Console.ReadKey();
+
+                                        break;
+
+                                    case 4:
+                                        Console.Clear();
+
+                                        Console.WriteLine("--|| Search for order ||--\n" +
+                                                        "Pick a category.\n" +
+                                                        "1. Order id.\n" +
+                                                        "2. Return date.\n" +
+                                                        "3. Customer id.\n" +
+                                                        "4. Bicycle id.");
+                                        oCategory = int.Parse(Console.ReadLine());
+
+                                        Console.Write("Enter the search value: ");
+                                        oValue = Console.ReadLine();
+
+                                        RentalOrderSearchResultController oRCont = new RentalOrderSearchResultController();
+                                        List<RentalOrderSearchResult> orderSearchResult = oRCont.GetReleventInfo(Convert.ToString((RentalOrderCategory)oCategory), oValue);
+
+                                        Console.Clear();
+                                        Console.WriteLine("--|| Search result ||--");
+                                        foreach (var o in orderSearchResult)
+                                        {
+                                            Console.WriteLine($"Order number = {o.order_number}\n" +
+                                                $"Customer id: {o.customer_id}\n" +
+                                                $"Order date: {o.order_date}\n" +
+                                                $"Return date: {o.return_date}\n" +
+                                                $"Bicycle id: {o.bicycle_id}\n" +
+                                                $"Hours rented: {o.rent_time}\n" +
+                                                $"Days rented: {o.days_rented}\n" +
+                                                $"Status: {o.rental_status}\n" +
+                                                $"Price category: {o.price_category}\n" +
+                                                $"Invoice: {o.invoice_number}\n" +
+                                                $"Total price: {o.total_price}\n"+
+                                                $"---------------------------------------------------------------------------------------------------------------\n");
+                                        }
+                                        Console.ReadKey();
+
+                                        break;
+                                    case 5:
+                                        PrintRealTimeMenu();
+                                        break;
+                                }
+                            }
+                        case 3:
+                            Console.WriteLine("--|| Prices ||--\n1. See price table.\n2. New.\n3. Go back.");
+                            i = int.Parse(Console.ReadLine());
+                            Console.Clear();
+                            while (true)
+                            {
+                                switch (i)
+                                {
+                                    case 1:
+                                        Console.WriteLine("--|| Prices Table ||--");
+
+                                        RentalPricesController pCont = new RentalPricesController();
+
+                                        List<Rental_Prices> prices = pCont.GetAll();
+
+                                        foreach(Rental_Prices p in prices)
+                                        {
+                                            Console.WriteLine($"Price category: {p.price_category}\n" +
+                                                $"Hour price: {p.hour_price}\n" +
+                                                $"Day price: {p.day_price}\n" +
+                                                $"----------------------------------------------------------------------------------");
+                                        }
+
+                                        Console.ReadKey();
+
+                                        break;
+                                    case 2:
+                                        Console.WriteLine("--|| Add Price Category ||--");
+                                        
+                                        Console.Write("Hour price: ");
+                                        double hp = double.Parse(Console.ReadLine());
+
+                                        Console.Write("Day price: ");
+                                        double dp = double.Parse(Console.ReadLine());
+
+                                        Rental_Prices price = new Rental_Prices{hour_price = hp, day_price = dp };
+                                        RentalPricesController pContr = new RentalPricesController();
+
+                                        Console.WriteLine($"{pContr.Add(price)} new price category has been added.");
+
+                                        Console.ReadKey();
+
+                                        break;
+                                    case 3:
+                                        PrintRealTimeMenu();
+                                        break;
+                                }
+                            }
+                        case 4:
+                            Console.WriteLine("--|| Invoice ||--\n1. Search.\n2. New.\n3. Update.\n4. Print invoice copy\n5. Go back");
+                            i = int.Parse(Console.ReadLine());
+                            while (true)
+                            {
+                                switch (i)
+                                {
+                                    case 1:
+                                        Console.Clear();
+
+                                        Console.WriteLine("--|| Search for invoice ||--\n" +
+                                                        "Pick a category.\n" +
+                                                        "1. Invoice number.\n" +
+                                                        "2. Invoice Adress.\n" +
+                                                        "3. C/O Adress.\n" +
+                                                        "4. Postal number.\n" +
+                                                        "5. City.\n" +
+                                                        "6. Order number.\n" +
+                                                        "7. Customer id.\n" +
+                                                        "8. First name.\n" +
+                                                        "9. Last name.\n");
+                                        var iCategory = int.Parse(Console.ReadLine());
+
+                                        Console.Write("Enter the search value: ");
+                                        var iValue = Console.ReadLine();
+
+                                        InvoiceInfoSearchResultController iIRCont = new InvoiceInfoSearchResultController();
+                                        List<InvoiceSearchResult> invoiceSearchResult = iIRCont.GetReleventInfo(Convert.ToString((InvoiceInfoCategory)iCategory), iValue);
+
+                                        Console.Clear();
+                                        Console.WriteLine("--|| Search result ||--");
+                                        foreach (var Invoice in invoiceSearchResult)
+                                        {
+                                            Console.WriteLine($"Invoice number = {Invoice.invoice_number}\n" +
+                                                $"Order number: {Invoice.order_number}\n" +
+                                                $"Customer id: {Invoice.customer_id}\n" +
+                                                $"First name: {Invoice.first_name}\n" +
+                                                $"Last name: {Invoice.last_name}\n" +
+                                                $"Invoice Adress: {Invoice.invoice_adress}\n" +
+                                                $"C/O adress: {Invoice.co_adress}\n" +
+                                                $"Postal number: {Invoice.postal_number}\n" +
+                                                $"City: {Invoice.city}\n" +
+                                                $"Total price: {Invoice.total_price}\n" +
+                                                $"---------------------------------------------------------------------------------------------------------------\n");
+                                        }
+                                        Console.ReadKey();
+
+                                        break;
+                                    case 2:
+                                        Console.Clear();
+                                        InvoiceInfoController iCont = new InvoiceInfoController();
+                                        CustomersController cCont = new CustomersController();
+
+                                        Console.WriteLine("--|| New invoice ||--\n");
+
+                                        Console.Write("Customer id: ");
+                                        var cID = int.Parse(Console.ReadLine());
+
+                                        Console.Write("Order number: ");
+                                        var oID = int.Parse(Console.ReadLine());
+
+                                        Console.Write("Invoice adress: ");
+                                        var ia = Console.ReadLine();
+
+                                        Console.Write("C/O adress: ");
+                                        var co = Console.ReadLine();
+
+                                        Console.Write("Postal number: ");
+                                        var pn = int.Parse(Console.ReadLine());
+
+                                        Console.Write("City: ");
+                                        var city = Console.ReadLine();
+
+                                        Invoice_Info newInvoice = new Invoice_Info
+                                        {
+                                            customer_id = cID,
+                                            first_name = cCont.GetByString("customer_id", Convert.ToString(cID)).FirstOrDefault().first_name,
+                                            last_name = cCont.GetByString("customer_id", Convert.ToString(cID)).FirstOrDefault().last_name,
+                                            order_number = oID,
+                                            invoice_adress = ia,
+                                            co_adress = co,
+                                            postal_number = pn,
+                                            city = city
+                                        };
+
+                                        Console.WriteLine($"{iCont.Add(newInvoice)} new invoice has been added.");
+
+                                        Invoice_Info printInvoice = iCont.GetAll().Last();
+                                        Console.ReadKey();
+
+                                        // Skapar en textfil med fakturan och visar den på skärmen. 
+                                        InvoiceCreator.CreateInvoice($"Invoice_{printInvoice.invoice_number}", printInvoice);
+
+                                        break;
+
+                                    case 3:
+                                        Console.Clear();
+
+                                        Console.WriteLine("--|| Update Invoice ||--\n" +
+                                                        "Enter the invoice number: ");
+                                        var invoiceID = int.Parse(Console.ReadLine());
+
+                                        Console.WriteLine("--|| Search for invoice ||--\n" +
+                                                        "Pick a category.\n" +
+                                                        "1. Invoice Adress.\n" +
+                                                        "2. C/O Adress.\n" +
+                                                        "3. Postal number.\n" +
+                                                        "4. City.\n" +
+                                                        "5. Order number.\n" +
+                                                        "6. Customer id.\n" +
+                                                        "7. First name.\n" +
+                                                        "8. Last name.\n");
+                                        var nICategory = int.Parse(Console.ReadLine());
+
+                                        Console.Write("Enter the new value: ");
+                                        var nIValue = Console.ReadLine();
+
+                                        InvoiceInfoController iContr = new InvoiceInfoController();
+                                        iContr.Update(invoiceID, Convert.ToString((InvoiceInfoCategory)nICategory + 1), nIValue);
+
+                                        Console.WriteLine($"Invoice {invoiceID} has been updated.");
+                                        Console.ReadKey();
+
+                                        break;
+                                    case 4:
+                                        Console.Clear();
+                                        InvoiceInfoController iController = new InvoiceInfoController();
+
+                                        Console.WriteLine("--|| Print invoice ||--");
+
+                                        Console.Write("Enter the invoice number: ");
+                                        var iID = Console.ReadLine();
+
+                                        Invoice_Info invoice = iController.GetByString("invoice_number", iID).FirstOrDefault();
+
+                                        InvoiceCreator.PrintInvoiceCopy(invoice);
+
+                                        break;
+                                    case 5:
+                                        PrintRealTimeMenu();
+                                        break;
+                                }
+                            }
+                        case 5:
+                            Console.Clear();
+
+                            Console.WriteLine("--|| Daily status update ||--");
+
+                            List<Rental_Orders> ordersToCheck = StatusUpdate.DailyBicycleStatusUpdate();
+
+                            Console.WriteLine("Bicycle status check completed.\nOrders where the return date has passed: ");
+                            foreach(var oTC in ordersToCheck)
+                            {
+                                Console.Write($"{oTC.order_number}, ");
+                            }
+
+                            Console.ReadKey();
+
+                            break;
+
+                        case 6:
+                            PrintMainMenu();
+                            break;
+                    }
+                    break;
+                }
+                catch
+                {
+                    Console.WriteLine(" ");
+                    Console.WriteLine("Wrong input, press any key and try again!");
+                    Console.ReadKey();
+                    Console.Clear();
+                }
+                PrintRealTimeMenu();
             }
         }
     }

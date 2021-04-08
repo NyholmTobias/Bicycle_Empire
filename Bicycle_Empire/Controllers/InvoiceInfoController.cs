@@ -63,7 +63,7 @@ namespace Bicycle_Empire
 
         public int Delete(int id)
         {
-            var effectedRows = db.Execute("DELETE FROM Invoice_Info" +
+            var effectedRows = db.Execute("DELETE FROM Invoice_Info " +
                                           $"WHERE invoice_number = {id}");
 
             return effectedRows;

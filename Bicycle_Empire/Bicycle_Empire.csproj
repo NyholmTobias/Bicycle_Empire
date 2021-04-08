@@ -69,6 +69,13 @@
     <Compile Include="Controllers\BicyclesController.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\IController.cs" />
+    <Compile Include="Controllers\CustomerSearchResultController.cs" />
+    <Compile Include="Enums\InvoiceInfoCategory.cs" />
+    <Compile Include="Controllers\InvoiceInfoSearchResultController.cs" />
+    <Compile Include="HelpClasses\InvoiceCreator.cs" />
+    <Compile Include="Models\InvoiceSearchResult.cs" />
+    <Compile Include="Models\CustomerSearchResult.cs" />
+    <Compile Include="Enums\CustomerCategory.cs" />
     <Compile Include="HelpClasses\Menu.cs" />
     <Compile Include="Controllers\InvoiceInfoController.cs" />
     <Compile Include="Models\Bicycles.cs" />
@@ -91,6 +98,10 @@
     <Compile Include="Controllers\RentalOrdersController.cs" />
     <Compile Include="Controllers\RentalPricesController.cs" />
     <Compile Include="HelpClasses\Seeder.cs" />
+    <Compile Include="Enums\RentalOrderCategory.cs" />
+    <Compile Include="Models\RentalOrderSearchResult.cs" />
+    <Compile Include="Controllers\RentalOrderSearchResultController.cs" />
+    <Compile Include="HelpClasses\StatusUpdate.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Configs\App.config" />
@@ -111,6 +122,8 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
