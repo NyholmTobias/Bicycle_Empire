@@ -7,6 +7,11 @@ namespace Bicycle_Empire
 {
     public static class InvoiceCreator
     {
+        /// <summary>
+        /// Skapar ett worddokument i "dokument" mappen 
+        /// </summary>
+        /// <param name="fileName">vad filen ska heta</param>
+        /// <param name="invoiceData">Informationen som ska finnas med på fakturan</param>
         public static void CreateInvoice(string fileName, Invoice_Info invoiceData)
         {
             RentalOrderSearchResultController rCont = new RentalOrderSearchResultController();
@@ -30,14 +35,20 @@ namespace Bicycle_Empire
             filePath = filePath + $@"\{fileName}";
             SeeInvoice(filePath);
         }
-
+        /// <summary>
+        /// Öppnar filen med fakturan. 
+        /// </summary>
+        /// <param name="filePath">sökvägen till filen</param>
         internal static void SeeInvoice(string filePath)
         {
 
             Process.Start(filePath);
 
         }
-
+        /// <summary>
+        /// öppnar filem med den önskade fakturan om den redan finns. Annars skapar den en ny. 
+        /// </summary>
+        /// <param name="invoice">Faktura som man vill se </param>
         public static void PrintInvoiceCopy(Invoice_Info invoice)
         {
             try

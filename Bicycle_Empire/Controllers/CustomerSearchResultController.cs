@@ -10,6 +10,12 @@ namespace Bicycle_Empire
     class CustomerSearchResultController
     {
         private IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnectionString"].ConnectionString);
+        /// <summary>
+        /// Tar fram relevant data till customer sökningar i "real time simulationen"
+        /// </summary>
+        /// <param name="category">Vilken kategori som ska sökas på</param>
+        /// <param name="input">Vilket värde som ska sökas efter</param>
+        /// <returns></returns>
         public List<CustomerSearchResult> GetReleventInfo(string category, string input)
         {
             List<CustomerSearchResult> customers = db.Query<CustomerSearchResult>($"SELECT Customers.customer_id, " +

@@ -2,9 +2,9 @@
 {
     static class Seeder
     {
+        // Fyller databasen med data om den är tom.
         public static void FillData()
         {
-            //Skapa i detta flödet Customers -> Rental_Prices -> Bicycles -> Rental_Orders -> Invoice_Info
             CustomersController cController = new CustomersController();
             BicyclesController bController = new BicyclesController();
             InvoiceInfoController iController = new InvoiceInfoController();

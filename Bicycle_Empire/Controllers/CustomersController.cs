@@ -69,7 +69,6 @@ namespace Bicycle_Empire
                                            "FROM Invoice_Info " +
                                           $"WHERE customer_id = {id}");
 
-            // Här var jag tvungen att lägga till "DELETE CASCADE" för att få det att fungera då tabellerna är kopplade till varandra via foreign keys.
             effectedRows += db.Execute("DELETE " +
                                        "FROM Rental_Orders " +
                                        $"WHERE customer_id = {id}");
